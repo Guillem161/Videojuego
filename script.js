@@ -11,20 +11,25 @@ let estado = JSON.parse(localStorage.getItem('videojuegoVida')) || {
   corazones: 10,
   hucha: 0,
   habilidades: {
-    Lectura: { nivel: 1, xp: 0 },
-    Gimnasio: { nivel: 1, xp: 0 },
-    Backtesting: { nivel: 1, xp: 0 },
-    VidaEspiritual: { nivel: 1, xp: 0 },
-    Alimentacion: { nivel: 1, xp: 0 },
-    Estudio: { nivel: 1, xp: 0 },
-    Social: { nivel: 1, xp: 0 },
-    Idioma: { nivel: 1, xp: 0 }
+    Lectura: { nivel: 0, xp: 0 },
+    Gimnasio: { nivel: 0, xp: 0 },
+    Backtesting: { nivel: 0, xp: 0 },
+    VidaEspiritual: { nivel: 0, xp: 0 },
+    Alimentacion: { nivel: 0, xp: 0 },
+    Estudio: { nivel: 0, xp: 0 },
+    Social: { nivel: 0, xp: 0 },
+    Idioma: { nivel: 0, xp: 0 }
   },
+  misiones: {},
   recompensas: []
 };
 
 function guardarEstado() {
   localStorage.setItem('videojuegoVida', JSON.stringify(estado));
+}
+
+function xpNecesaria(nivel) {
+  return 100 * (nivel + 1);
 }
 
 function render() {
@@ -33,22 +38,24 @@ function render() {
   huchaEl.textContent = estado.hucha.toFixed(2);
 
   habilidadesEl.innerHTML = '';
-  Object.entries(estado.habilidades).forEach(([nombre, datos]) => {
-    const requerido = datos.nivel * 100;
+  Object.entries(estado.habilidades).forEach(([nombre, data]) => {
     const div = document.createElement('div');
-    div.textContent = `${nombre}: Nivel ${datos.nivel} (${datos.xp}/${requerido} XP)`;
+    const xpTotal = data.xp;
+    const nivel = data.nivel;
+    const xpReq = xpNecesaria(nivel);
+    div.textContent = `${nombre}: Nivel ${nivel} | XP: ${xpTotal}/${xpReq}`;
     habilidadesEl.appendChild(div);
   });
 
   const tareas = [
-    { nombre: 'Leer 30 min', hab: 'Lectura', xp: 50, monedas: 5 },
-    { nombre: 'Gimnasio o correr', hab: 'Gimnasio', xp: 60, monedas: 10 },
-    { nombre: 'Backtesting 2h', hab: 'Backtesting', xp: 70, monedas: 10 },
-    { nombre: 'Meditar y agradecer', hab: 'VidaEspiritual', xp: 40, monedas: 5 },
-    { nombre: 'Comer saludable', hab: 'Alimentacion', xp: 50, monedas: 10 },
-    { nombre: 'Estudio 1h', hab: 'Estudio', xp: 50, monedas: 5 },
-    { nombre: 'Conversación interesante', hab: 'Social', xp: 50, monedas: 5 },
-    { nombre: 'Aprender Idioma', hab: 'Idioma', xp: 60, monedas: 5 },
+    { nombre: 'Leer 30 min', hab: 'Lectura', xp: 30, monedas: 5 },
+    { nombre: 'Gimnasio o correr', hab: 'Gimnasio', xp: 40, monedas: 10 },
+    { nombre: 'Backtesting 2h', hab: 'Backtesting', xp: 50, monedas: 10 },
+    { nombre: 'Meditar y agradecer', hab: 'VidaEspiritual', xp: 20, monedas: 5 },
+    { nombre: 'Comer saludable', hab: 'Alimentacion', xp: 30, monedas: 10 },
+    { nombre: 'Estudio 1h', hab: 'Estudio', xp: 40, monedas: 5 },
+    { nombre: 'Conversación interesante', hab: 'Social', xp: 25, monedas: 5 },
+    { nombre: 'Aprender Idioma', hab: 'Idioma', xp: 35, monedas: 5 },
   ];
 
   misionesEl.innerHTML = '';
@@ -57,11 +64,13 @@ function render() {
     const btn = document.createElement('button');
     btn.textContent = 'Completar';
     btn.onclick = () => {
-      let habilidad = estado.habilidades[t.hab];
-      habilidad.xp += t.xp;
-      if (habilidad.xp >= habilidad.nivel * 100 && habilidad.nivel < 10) {
-        habilidad.xp = 0;
-        habilidad.nivel++;
+      const hab = estado.habilidades[t.hab];
+      if (hab.nivel < 10) {
+        hab.xp += t.xp;
+        while (hab.xp >= xpNecesaria(hab.nivel) && hab.nivel < 10) {
+          hab.xp -= xpNecesaria(hab.nivel);
+          hab.nivel++;
+        }
       }
       estado.monedas += t.monedas;
       guardarEstado();
@@ -72,7 +81,7 @@ function render() {
     misionesEl.appendChild(div);
   });
 
-  const recompensasDisponibles = [
+  const recompensas = [
     { nombre: '1 hora de videojuegos', costo: 100 },
     { nombre: 'Ver una película', costo: 100 },
     { nombre: 'Día libre de tareas', costo: 150 },
@@ -84,31 +93,31 @@ function render() {
     { nombre: 'Viaje de 3 días', costo: 1500 },
     { nombre: 'Viaje internacional', costo: 3000 },
     { nombre: 'Intercambiar monedas por dinero real', costo: 50 },
-    { nombre: 'Espada Diamante', costo: 20 }
+    { nombre: 'Espada de diamante (fondo)', costo: 20, especial: true }
   ];
 
   tiendaEl.innerHTML = '';
-  recompensasDisponibles.forEach((r) => {
+  recompensas.forEach((r) => {
     const div = document.createElement('div');
+    div.innerHTML = `<strong>${r.nombre}</strong><br/>Costo: ${r.costo} 🪙`;
+
     const btn = document.createElement('button');
     btn.textContent = 'Comprar';
     btn.onclick = () => {
       if (estado.monedas >= r.costo) {
         estado.monedas -= r.costo;
-
         if (r.nombre === 'Intercambiar monedas por dinero real') {
           estado.hucha += 1;
-        } else if (r.nombre === 'Espada Diamante') {
-          window.open('diamond_sword.png', '_blank');
+        } else if (r.especial) {
+          abrirVentanaEspada();
         } else {
           estado.recompensas.push(r.nombre);
         }
-
         guardarEstado();
         render();
       }
     };
-    div.innerHTML = `<strong>${r.nombre}</strong><br/>Costo: ${r.costo} 🪙`;
+
     div.appendChild(btn);
     tiendaEl.appendChild(div);
   });
@@ -144,6 +153,11 @@ function showTab(tabId) {
   });
   document.getElementById(tabId).classList.remove('hidden');
   document.getElementById(tabId).classList.add('visible');
+}
+
+function abrirVentanaEspada() {
+  const win = window.open("", "EspadaDiamante", "width=400,height=400");
+  win.document.write('<h1>Espada de Diamante 🔷</h1><img src="diamond_sword.png" style="width:300px;margin-top:20px;">');
 }
 
 render();
