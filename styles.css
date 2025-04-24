@@ -1,61 +1,65 @@
-body { font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; background: #f4f4f8; color: #333; }
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f4f4f8;
+  color: #333;
+}
 
-.app { max-width: 600px; margin: 0 auto; padding: 1rem; }
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
+  padding: 1rem;
+  border-bottom: 2px solid #eee;
+}
 
-header { display: flex; flex-direction: column; align-items: center; background: #fff; padding: 1rem; border-bottom: 2px solid #eee; }
+.status {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
 
-.status { font-size: 1.2rem; margin-bottom: 0.5rem; }
-
-nav button { margin: 0 0.5rem; padding: 0.5rem 1rem; border: none; background: #0077ff; color: #fff; border-radius: 6px; cursor: pointer; }
-
-.tab { display: none; padding: 1rem; background: white; border-radius: 10px; margin-top: 1rem; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
-
-.tab.visible { display: block; }
-
-#habilidades div, #misiones div, #tienda-items div, #recompensas-lista div { margin-bottom: 1rem; padding: 1rem; background: #fafafa; border: 1px solid #ddd; border-radius: 8px; }
-
-h2 { color: #0077ff; font-size: 1.8rem; text-align: center; margin-bottom: 1rem; }
-
-button {
+nav button {
+  margin: 0 0.5rem;
   padding: 0.5rem 1rem;
   border: none;
-  background-color: #4caf50;
-  color: white;
-  font-size: 1rem;
-  cursor: pointer;
+  background: #0077ff;
+  color: #fff;
   border-radius: 6px;
+  cursor: pointer;
 }
 
-button:hover {
-  background-color: #45a049;
+.tab {
+  display: none;
+  padding: 1rem;
+  background: white;
+  border-radius: 10px;
+  margin-top: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-.nivel-barra {
-  display: flex;
-  height: 10px;
-  width: 100%;
-  background-color: #f0f0f0;
+.tab.visible {
+  display: block;
 }
 
-.nivel {
-  flex-grow: 1;
-  margin: 1px;
-  background-color: lightgray;
-}
-
-.nivel[data-level="up"] {
-  background-color: #4caf50;
+#habilidades div, #misiones div, #tienda-items div, #recompensas-lista div {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
 }
 
 button {
-  margin-top: 0.5rem;
   padding: 0.5rem 1rem;
-  background-color: #0077ff;
-  color: #fff;
-  border-radius: 6px;
-  font-size: 1rem;
+  margin-top: 1rem;
+  background: #28a745;
+  color: white;
+  border: none;
+  cursor: pointer;
 }
 
 button:hover {
-  background-color: #005f99;
+  background: #218838;
 }
