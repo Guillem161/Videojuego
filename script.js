@@ -1,14 +1,8 @@
-const monedasEl = document.getElementById('monedas');
-const corazonesEl = document.getElementById('corazones');
-const habilidadesEl = document.getElementById('habilidades');
-const misionesEl = document.getElementById('misiones');
-const tiendaEl = document.getElementById('tienda-items');
-const recompensasEl = document.getElementById('recompensas-lista');
-const huchaEl = document.getElementById('hucha');
-
+// Intentamos cargar el estado desde localStorage
 let estado = JSON.parse(localStorage.getItem('videojuegoVida'));
 
 if (!estado) {
+  // Si no existe, inicializamos el estado con valores predeterminados
   estado = {
     monedas: 0,
     corazones: 10,
@@ -29,6 +23,7 @@ if (!estado) {
 }
 
 function guardarEstado() {
+  // Guardamos el estado actualizado en localStorage
   localStorage.setItem('videojuegoVida', JSON.stringify(estado));
 }
 
@@ -130,32 +125,4 @@ function render() {
     const btn = document.createElement('button');
     btn.textContent = 'Gastar';
     btn.onclick = () => {
-      estado.recompensas.splice(index, 1);
-      guardarEstado();
-      render();
-    };
-    div.textContent = nombre;
-    div.appendChild(btn);
-    recompensasEl.appendChild(div);
-  });
-}
-
-function restarHucha() {
-  if (estado.hucha >= 1) {
-    estado.hucha -= 1;
-    guardarEstado();
-    render();
-  }
-}
-
-function showTab(tabId) {
-  document.querySelectorAll('.tab').forEach(tab => {
-    tab.classList.remove('visible');
-    tab.classList.add('hidden');
-  });
-  document.getElementById(tabId).classList.remove('hidden');
-  document.getElementById(tabId).classList.add('visible');
-}
-
-render();
-showTab('inicio');
+      estado.recompensas
