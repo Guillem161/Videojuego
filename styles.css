@@ -52,7 +52,7 @@ nav button {
 #habilidades div,
 #misiones div,
 #tienda-items div,
-#recompensas-canjeadas div {
+#recompensas-items div {
   margin-bottom: 1rem;
   padding: 1rem;
   background: #fafafa;
@@ -60,45 +60,23 @@ nav button {
   border-radius: 8px;
 }
 
-button:disabled {
-  background: #ddd;
-  cursor: not-allowed;
+.barra {
+  height: 10px;
+  background: #0077ff;
+  border-radius: 5px;
+  margin-top: 5px;
 }
 
 button {
-  background: #4CAF50;
+  margin-top: 10px;
+  padding: 10px;
+  border: none;
+  background-color: #0077ff;
   color: white;
-  border-radius: 6px;
-  padding: 8px;
+  border-radius: 5px;
   cursor: pointer;
 }
 
 button:hover {
-  background: #45a049;
-}
-
-#habilidades {
-  display: flex;
-  flex-direction: column;
-}
-
-#habilidades div {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-#habilidades .barra-nivel {
-  display: flex;
-}
-
-#habilidades .barra-nivel div {
-  width: 20px;
-  height: 20px;
-  margin-right: 3px;
-  border-radius: 4px;
-}
-
-.hidden {
-  display: none;
+  background-color: #005bb5;
 }
