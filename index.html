@@ -1,45 +1,47 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Videojuego de Tu Vida</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>El Videojuego de Tu Vida</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <div class="app">
     <header>
-        <div class="stats">
-            <span id="hearts">❤️ x10</span>
-            <span id="coins">🪙 x0</span>
-        </div>
-        <div class="countdown" id="day-timer">Tiempo restante: 24h</div>
+      <div class="status">
+        <span id="monedas">🪙 0</span>
+        <span id="corazones">❤️ 10</span>
+      </div>
+      <nav>
+        <button onclick="showTab('inicio')">Inicio</button>
+        <button onclick="showTab('misiones')">Misiones</button>
+        <button onclick="showTab('tienda')">Tienda</button>
+      </nav>
     </header>
-    <nav>
-        <button onclick="showTab('inicio')">🏠 Inicio</button>
-        <button onclick="showTab('misiones')">📋 Misiones</button>
-        <button onclick="showTab('tienda')">🛍 Tienda</button>
-    </nav>
+
     <main>
-        <section id="inicio" class="tab active">
-            <h2>Habilidades</h2>
-            <div class="skill" id="habilidades">
-                <!-- Habilidades se renderizarán aquí -->
-            </div>
-        </section>
-        <section id="misiones" class="tab">
-            <h2>Misiones Diarias</h2>
-            <div id="misiones-container">
-                <!-- Misiones se renderizan con JS -->
-            </div>
-        </section>
-        <section id="tienda" class="tab">
-            <h2>Tienda de Recompensas</h2>
-            <div id="tienda-container">
-                <!-- Recompensas se renderizan con JS -->
-            </div>
-        </section>
+      <section id="inicio" class="tab">
+        <h2>Habilidades</h2>
+        <div id="habilidades"></div>
+      </section>
+
+      <section id="misiones" class="tab hidden">
+        <h2>Misiones Diarias</h2>
+        <div id="misiones"></div>
+      </section>
+
+      <section id="tienda" class="tab hidden">
+        <h2>Tienda</h2>
+        <div id="tienda-items"></div>
+      </section>
     </main>
-    <script src="script.js"></script>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+
+  <script src="script.js"></script>
 </body>
 </html>
