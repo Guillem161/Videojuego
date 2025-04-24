@@ -6,22 +6,27 @@ const tiendaEl = document.getElementById('tienda-items');
 const recompensasEl = document.getElementById('recompensas-lista');
 const huchaEl = document.getElementById('hucha');
 
-let estado = JSON.parse(localStorage.getItem('videojuegoVida')) || {
-  monedas: 0,
-  corazones: 10,
-  hucha: 0,
-  habilidades: {
-    Lectura: { nivel: 0, xp: 0 },
-    Gimnasio: { nivel: 0, xp: 0 },
-    Backtesting: { nivel: 0, xp: 0 },
-    VidaEspiritual: { nivel: 0, xp: 0 },
-    Alimentacion: { nivel: 0, xp: 0 },
-    Estudio: { nivel: 0, xp: 0 },
-    Social: { nivel: 0, xp: 0 },
-    Idioma: { nivel: 0, xp: 0 }
-  },
-  recompensas: []
-};
+let estado = JSON.parse(localStorage.getItem('videojuegoVida'));
+
+if (!estado) {
+  estado = {
+    monedas: 0,
+    corazones: 10,
+    hucha: 0,
+    habilidades: {
+      Lectura: { nivel: 0, xp: 0 },
+      Gimnasio: { nivel: 0, xp: 0 },
+      Backtesting: { nivel: 0, xp: 0 },
+      VidaEspiritual: { nivel: 0, xp: 0 },
+      Alimentacion: { nivel: 0, xp: 0 },
+      Estudio: { nivel: 0, xp: 0 },
+      Social: { nivel: 0, xp: 0 },
+      Idioma: { nivel: 0, xp: 0 }
+    },
+    recompensas: []
+  };
+  localStorage.setItem('videojuegoVida', JSON.stringify(estado));
+}
 
 function guardarEstado() {
   localStorage.setItem('videojuegoVida', JSON.stringify(estado));
