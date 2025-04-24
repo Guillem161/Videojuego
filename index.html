@@ -1,65 +1,112 @@
-<script type="module">
-  // Import the necessary functions from Firebase SDK
-  import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
-  import { getFirestore, doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js';
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Videojuego De Tu Vida</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="status">
+      <span id="monedas">🪙 0</span> | <span id="corazones">❤️ 10</span>
+    </div>
+    <nav>
+      <button onclick="showTab('inicio')">Inicio</button>
+      <button onclick="showTab('misiones')">Misiones</button>
+      <button onclick="showTab('tienda')">Tienda</button>
+      <button onclick="showTab('recompensas')">Recompensas</button>
+    </nav>
+  </header>
+  <main>
+    <section id="inicio" class="tab hidden">
+      <h2>Habilidades</h2>
+      <div id="habilidades"></div>
+    </section>
 
-  // Tu configuración de Firebase
-  const firebaseConfig = {
-    apiKey: "AIzaSyBnAIdWq32okAGc6yIlNv3ApBWZ9K7uGOo",
-    authDomain: "juego-6f220.firebaseapp.com",
-    projectId: "juego-6f220",
-    storageBucket: "juego-6f220.firebasestorage.app",
-    messagingSenderId: "895838001179",
-    appId: "1:895838001179:web:058f602c4c292ba4ec80be",
-    measurementId: "G-ZBR21DXHRB"
-  };
+    <section id="misiones" class="tab hidden">
+      <h2>Misiones Diarias</h2>
+      <div id="misiones"></div>
+    </section>
 
-  // Inicializa Firebase
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+    <section id="tienda" class="tab hidden">
+      <h2>Tienda</h2>
+      <div id="tienda-items"></div>
+      <h3>Hucha 💰: <span id="hucha"></span> €</h3>
+      <button onclick="restarHucha()">Restar 1€</button>
+    </section>
 
-  // Función para cargar el estado desde Firestore
-  async function cargarEstado() {
-    const docRef = doc(db, "estado", "videojuego");
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      return docSnap.data();
-    } else {
-      const estadoInicial = {
-        monedas: 0,
-        corazones: 10,
-        hucha: 0,
-        habilidades: {
-          Lectura: { nivel: 0, xp: 0 },
-          Gimnasio: { nivel: 0, xp: 0 },
-          Backtesting: { nivel: 0, xp: 0 },
-          VidaEspiritual: { nivel: 0, xp: 0 },
-          Alimentacion: { nivel: 0, xp: 0 },
-          Estudio: { nivel: 0, xp: 0 },
-          Social: { nivel: 0, xp: 0 },
-          Idioma: { nivel: 0, xp: 0 }
-        },
-        recompensas: []
-      };
-      // Guarda el estado inicial si no existe
-      await setDoc(docRef, estadoInicial);
-      return estadoInicial;
+    <section id="recompensas" class="tab hidden">
+      <h2>Recompensas Canjeadas</h2>
+      <div id="recompensas-lista"></div>
+    </section>
+  </main>
+
+  <!-- Add Firebase SDKs here -->
+  <script type="module">
+    // Import the necessary functions from Firebase SDK
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
+    import { getFirestore, doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js';
+
+    // Tu configuración de Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyBnAIdWq32okAGc6yIlNv3ApBWZ9K7uGOo",
+      authDomain: "juego-6f220.firebaseapp.com",
+      projectId: "juego-6f220",
+      storageBucket: "juego-6f220.firebasestorage.app",
+      messagingSenderId: "895838001179",
+      appId: "1:895838001179:web:058f602c4c292ba4ec80be",
+      measurementId: "G-ZBR21DXHRB"
+    };
+
+    // Inicializa Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Función para cargar el estado desde Firestore
+    async function cargarEstado() {
+      const docRef = doc(db, "estado", "videojuego");
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        return docSnap.data();
+      } else {
+        const estadoInicial = {
+          monedas: 0,
+          corazones: 10,
+          hucha: 0,
+          habilidades: {
+            Lectura: { nivel: 0, xp: 0 },
+            Gimnasio: { nivel: 0, xp: 0 },
+            Backtesting: { nivel: 0, xp: 0 },
+            VidaEspiritual: { nivel: 0, xp: 0 },
+            Alimentacion: { nivel: 0, xp: 0 },
+            Estudio: { nivel: 0, xp: 0 },
+            Social: { nivel: 0, xp: 0 },
+            Idioma: { nivel: 0, xp: 0 }
+          },
+          recompensas: []
+        };
+        // Guarda el estado inicial si no existe
+        await setDoc(docRef, estadoInicial);
+        return estadoInicial;
+      }
     }
-  }
 
-  // Función para guardar el estado en Firestore
-  async function guardarEstado(estado) {
-    const docRef = doc(db, "estado", "videojuego");
-    await setDoc(docRef, estado);
-  }
+    // Función para guardar el estado en Firestore
+    async function guardarEstado(estado) {
+      const docRef = doc(db, "estado", "videojuego");
+      await setDoc(docRef, estado);
+    }
 
-  // Llamada para cargar el estado y renderizarlo
-  async function render() {
-    const estado = await cargarEstado();
+    // Cargar estado y renderizar
+    async function render() {
+      const estado = await cargarEstado();
 
-    // Aquí puedes agregar el código de renderización para las habilidades y demás datos
-    console.log(estado);
-  }
+      // Aquí puedes agregar el código de renderización para las habilidades y demás datos
+      console.log(estado);
+    }
 
-  render();
-</script>
+    render();
+  </script>
+</body>
+</html>
