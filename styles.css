@@ -38,45 +38,32 @@ nav button {
 
 .tab {
   display: none;
-  padding: 1rem;
-  background: white;
-  border-radius: 10px;
   margin-top: 1rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 .tab.visible {
   display: block;
 }
 
-#habilidades div,
-#misiones div,
-#tienda-items div,
-#recompensas-items div {
-  margin-bottom: 1rem;
-  padding: 1rem;
-  background: #fafafa;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-}
-
-.barra {
-  height: 10px;
-  background: #0077ff;
-  border-radius: 5px;
-  margin-top: 5px;
-}
-
 button {
-  margin-top: 10px;
-  padding: 10px;
-  border: none;
-  background-color: #0077ff;
-  color: white;
+  padding: 0.5rem;
   border-radius: 5px;
-  cursor: pointer;
+  background-color: #2b97e3;
+  color: white;
 }
 
 button:hover {
-  background-color: #005bb5;
+  background-color: #1f70c1;
+}
+
+.hidden {
+  display: none;
+}
+
+h2 {
+  text-align: center;
+}
+
+#habilidades div {
+  margin-bottom: 10px;
 }
