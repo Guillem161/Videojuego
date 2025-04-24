@@ -141,9 +141,13 @@ function showTab(tabId) {
     tab.classList.remove('visible');
     tab.classList.add('hidden');
   });
-  document.getElementById(tabId).classList.remove('hidden');
-  document.getElementById(tabId).classList.add('visible');
+  const selectedTab = document.getElementById(tabId);
+  if (selectedTab) {
+    selectedTab.classList.remove('hidden');
+    selectedTab.classList.add('visible');
+  }
 }
+
 
 render();
 showTab('inicio');
