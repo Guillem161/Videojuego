@@ -30,6 +30,10 @@ nav button {
   cursor: pointer;
 }
 
+nav button:hover {
+  background-color: #005bb5;
+}
+
 .tab {
   display: none;
   padding: 1rem;
@@ -43,7 +47,27 @@ nav button {
   display: block;
 }
 
-#habilidades div, #misiones-lista div, #tienda-items div, #recompensas-lista div {
+#habilidades {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+#habilidades div {
+  background-color: #e0f7fa;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 2px solid #00796b;
+  text-align: center;
+}
+
+#habilidades div strong {
+  display: block;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+#misiones-lista div, #tienda-items div, #recompensas-lista div {
   margin-bottom: 1rem;
   padding: 1rem;
   background: #fafafa;
