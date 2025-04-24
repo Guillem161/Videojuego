@@ -10,15 +10,16 @@ let estado = JSON.parse(localStorage.getItem('videojuegoVida')) || {
   monedas: 0,
   corazones: 10,
   hucha: 0,
+  experiencia: 0, // Añadido para la experiencia global
   habilidades: {
-    Lectura: 0,
-    Gimnasio: 0,
-    Backtesting: 0,
-    VidaEspiritual: 0,
-    Alimentacion: 0,
-    Estudio: 0,
-    Social: 0,
-    Idioma: 0
+    Lectura: { nivel: 0, xp: 0 },
+    Gimnasio: { nivel: 0, xp: 0 },
+    Backtesting: { nivel: 0, xp: 0 },
+    VidaEspiritual: { nivel: 0, xp: 0 },
+    Alimentacion: { nivel: 0, xp: 0 },
+    Estudio: { nivel: 0, xp: 0 },
+    Social: { nivel: 0, xp: 0 },
+    Idioma: { nivel: 0, xp: 0 }
   },
   misiones: {},
   recompensas: []
@@ -34,16 +35,17 @@ function render() {
   huchaEl.textContent = estado.hucha.toFixed(2);
 
   habilidadesEl.innerHTML = '';
-  Object.entries(estado.habilidades).forEach(([nombre, nivel]) => {
+  Object.entries(estado.habilidades).forEach(([nombre, { nivel, xp }]) => {
     const div = document.createElement('div');
-    div.textContent = `${nombre}: Nivel ${nivel}`;
+    div.textContent = `${nombre}: Nivel ${nivel} | XP: ${xp}`;
     
     const barra = document.createElement('div');
     barra.classList.add('nivel-barra');
-    for (let i = 1; i <= 10; i++) {
+    const xpRequerido = 10 * (nivel + 1);  // XP necesario para subir de nivel
+    for (let i = 1; i <= xpRequerido; i++) {
       const nivelDiv = document.createElement('div');
       nivelDiv.classList.add('nivel');
-      if (i <= nivel) nivelDiv.style.backgroundColor = "#4caf50"; // Verde si está a nivel
+      if (i <= xp) nivelDiv.style.backgroundColor = "#4caf50"; // Verde si está a nivel
       barra.appendChild(nivelDiv);
     }
     
@@ -68,8 +70,17 @@ function render() {
     const btn = document.createElement('button');
     btn.textContent = 'Completar';
     btn.onclick = () => {
-      estado.habilidades[t.hab] += t.xp;
+      estado.habilidades[t.hab].xp += t.xp;
       estado.monedas += t.monedas;
+
+      // Si la XP supera el límite necesario para subir de nivel
+      const xpRequerido = 10 * (estado.habilidades[t.hab].nivel + 1);
+      if (estado.habilidades[t.hab].xp >= xpRequerido) {
+        estado.habilidades[t.hab].nivel++;
+        estado.habilidades[t.hab].xp = 0; // Resetear XP después de subir de nivel
+      }
+
+      estado.experiencia += t.xp;
       guardarEstado();
       render();
     };
