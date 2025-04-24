@@ -14,6 +14,22 @@ nav button { margin: 0 0.5rem; padding: 0.5rem 1rem; border: none; background: #
 
 #habilidades div, #misiones div, #tienda-items div, #recompensas-lista div { margin-bottom: 1rem; padding: 1rem; background: #fafafa; border: 1px solid #ddd; border-radius: 8px; }
 
+h2 { color: #0077ff; font-size: 1.8rem; text-align: center; margin-bottom: 1rem; }
+
+button {
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #4caf50;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
 .nivel-barra {
   display: flex;
   height: 10px;
@@ -29,4 +45,17 @@ nav button { margin: 0 0.5rem; padding: 0.5rem 1rem; border: none; background: #
 
 .nivel[data-level="up"] {
   background-color: #4caf50;
+}
+
+button {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #0077ff;
+  color: #fff;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+button:hover {
+  background-color: #005f99;
 }
