@@ -1,4 +1,3 @@
-// script.js
 const monedasEl = document.getElementById('monedas');
 const corazonesEl = document.getElementById('corazones');
 const habilidadesEl = document.getElementById('habilidades');
@@ -73,7 +72,7 @@ function render() {
     misionesEl.appendChild(div);
   });
 
-  const recompensas = [
+  const recompensasDisponibles = [
     { nombre: '1 hora de videojuegos', costo: 100 },
     { nombre: 'Ver una película', costo: 100 },
     { nombre: 'Día libre de tareas', costo: 150 },
@@ -89,13 +88,14 @@ function render() {
   ];
 
   tiendaEl.innerHTML = '';
-  recompensas.forEach((r) => {
+  recompensasDisponibles.forEach((r) => {
     const div = document.createElement('div');
     const btn = document.createElement('button');
     btn.textContent = 'Comprar';
     btn.onclick = () => {
       if (estado.monedas >= r.costo) {
         estado.monedas -= r.costo;
+
         if (r.nombre === 'Intercambiar monedas por dinero real') {
           estado.hucha += 1;
         } else if (r.nombre === 'Espada Diamante') {
@@ -103,6 +103,7 @@ function render() {
         } else {
           estado.recompensas.push(r.nombre);
         }
+
         guardarEstado();
         render();
       }
