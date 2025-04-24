@@ -36,7 +36,10 @@ function render() {
   habilidadesEl.innerHTML = '';
   Object.entries(estado.habilidades).forEach(([nombre, { nivel, xp }]) => {
     const div = document.createElement('div');
-    div.textContent = `${nombre}: Nivel ${nivel} | XP: ${xp}`;
+    div.innerHTML = `
+      <strong>${nombre}</strong>
+      <p>Nivel: ${nivel} | XP: ${xp} / ${100 * (nivel + 1)}</p>
+    `;
     habilidadesEl.appendChild(div);
   });
 
@@ -59,7 +62,7 @@ function render() {
     btn.onclick = () => {
       estado.habilidades[t.hab].xp += t.xp;
       estado.monedas += t.monedas;
-      if (estado.habilidades[t.hab].xp >= 100) {
+      if (estado.habilidades[t.hab].xp >= 100 * (estado.habilidades[t.hab].nivel + 1)) {
         estado.habilidades[t.hab].nivel++;
         estado.habilidades[t.hab].xp = 0; // Reset XP after leveling up
       }
