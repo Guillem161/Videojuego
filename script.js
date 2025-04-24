@@ -37,6 +37,17 @@ function render() {
   Object.entries(estado.habilidades).forEach(([nombre, nivel]) => {
     const div = document.createElement('div');
     div.textContent = `${nombre}: Nivel ${nivel}`;
+    
+    const barra = document.createElement('div');
+    barra.classList.add('nivel-barra');
+    for (let i = 1; i <= 10; i++) {
+      const nivelDiv = document.createElement('div');
+      nivelDiv.classList.add('nivel');
+      if (i <= nivel) nivelDiv.style.backgroundColor = "#4caf50"; // Verde si está a nivel
+      barra.appendChild(nivelDiv);
+    }
+    
+    div.appendChild(barra);
     habilidadesEl.appendChild(div);
   });
 
