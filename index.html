@@ -98,14 +98,35 @@
       await setDoc(docRef, estado);
     }
 
-    // Cargar estado y renderizar
+    // Función para mostrar el estado en la interfaz
     async function render() {
       const estado = await cargarEstado();
 
-      // Aquí puedes agregar el código de renderización para las habilidades y demás datos
-      console.log(estado);
+      // Mostrar monedas y corazones
+      document.getElementById('monedas').innerText = `🪙 ${estado.monedas}`;
+      document.getElementById('corazones').innerText = `❤️ ${estado.corazones}`;
+      document.getElementById('hucha').innerText = estado.hucha;
+
+      // Mostrar habilidades
+      const habilidadesEl = document.getElementById('habilidades');
+      habilidadesEl.innerHTML = '';
+      Object.entries(estado.habilidades).forEach(([nombre, { nivel, xp }]) => {
+        const div = document.createElement('div');
+        div.innerText = `${nombre}: Nivel ${nivel} | XP: ${xp}`;
+        habilidadesEl.appendChild(div);
+      });
+
+      // Mostrar recompensas
+      const recompensasEl = document.getElementById('recompensas-lista');
+      recompensasEl.innerHTML = '';
+      estado.recompensas.forEach((recompensa) => {
+        const div = document.createElement('div');
+        div.innerText = recompensa;
+        recompensasEl.appendChild(div);
+      });
     }
 
+    // Llamar la función render para cargar la interfaz
     render();
   </script>
 </body>
