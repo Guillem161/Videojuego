@@ -36,7 +36,7 @@ function render() {
   habilidadesEl.innerHTML = '';
   Object.entries(estado.habilidades).forEach(([nombre, { nivel, xp }]) => {
     const div = document.createElement('div');
-    div.textContent = `${nombre}: Nivel ${nivel} | XP: ${xp}`;
+    div.textContent = `${nombre}: Nivel ${nivel} | XP: ${xp}/${xpRequerido(nivel)}`;
     habilidadesEl.appendChild(div);
   });
 
@@ -57,10 +57,18 @@ function render() {
     const btn = document.createElement('button');
     btn.textContent = 'Completar';
     btn.onclick = () => {
-      estado.habilidades[t.hab].xp += t.xp;
-      if (estado.habilidades[t.hab].xp >= (estado.habilidades[t.hab].nivel + 1) * 100) {
-        estado.habilidades[t.hab].nivel++;
-        estado.habilidades[t.hab].xp = 0;
+      const hab = estado.habilidades[t.hab];
+      if (hab.nivel < 10) {
+        hab.xp += t.xp;
+        const xpNecesaria = xpRequerido(hab.nivel);
+        if (hab.xp >= xpNecesaria) {
+          hab.xp -= xpNecesaria;
+          hab.nivel++;
+          if (hab.nivel >= 10) {
+            hab.nivel = 10;
+            hab.xp = 0;
+          }
+        }
       }
       estado.monedas += t.monedas;
       guardarEstado();
@@ -121,6 +129,10 @@ function render() {
     div.appendChild(btn);
     recompensasEl.appendChild(div);
   });
+}
+
+function xpRequerido(nivel) {
+  return (nivel + 1) * 100;
 }
 
 function restarHucha() {
