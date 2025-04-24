@@ -1,28 +1,79 @@
-/* Agrega estilo para las barras de habilidad */
-.barra {
-  width: 100%;
-  height: 10px;
-  background-color: #ddd;
-  border-radius: 5px;
-  margin-top: 5px;
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f4f4f8;
+  color: #333;
 }
 
-.nivel {
-  height: 100%;
-  background-color: #4caf50;
-  border-radius: 5px;
+.app {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1rem;
 }
 
-button {
-  margin-top: 10px;
-  padding: 5px 15px;
-  background-color: #0077ff;
-  color: white;
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
+  padding: 1rem;
+  border-bottom: 2px solid #eee;
+}
+
+.status {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+nav button {
+  margin: 0 0.5rem;
+  padding: 0.5rem 1rem;
   border: none;
-  border-radius: 5px;
+  background: #0077ff;
+  color: #fff;
+  border-radius: 6px;
   cursor: pointer;
 }
 
+.tab {
+  display: none;
+  padding: 1rem;
+  background: white;
+  border-radius: 10px;
+  margin-top: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.tab.visible {
+  display: block;
+}
+
+#habilidades div,
+#misiones div,
+#tienda-items div,
+#recompensas-list div {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
 button:hover {
-  background-color: #0056b3;
+  background-color: #45a049;
+}
+
+button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
 }
