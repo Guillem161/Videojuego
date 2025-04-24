@@ -12,34 +12,29 @@
       <div class="status">
         <span id="monedas">🪙 0</span>
         <span id="corazones">❤️ 10</span>
+        <span id="hucha">💵 0.00</span> <!-- Hucha de dinero real -->
       </div>
       <nav>
         <button onclick="showTab('inicio')">Inicio</button>
         <button onclick="showTab('misiones')">Misiones</button>
         <button onclick="showTab('tienda')">Tienda</button>
-        <button onclick="showTab('recompensas')">Recompensas</button>
       </nav>
     </header>
 
     <main>
-      <section id="inicio" class="tab visible">
+      <section id="inicio" class="tab">
         <h2>Habilidades</h2>
         <div id="habilidades"></div>
       </section>
 
-      <section id="misiones" class="tab">
+      <section id="misiones" class="tab hidden">
         <h2>Misiones Diarias</h2>
         <div id="misiones"></div>
       </section>
 
-      <section id="tienda" class="tab">
+      <section id="tienda" class="tab hidden">
         <h2>Tienda</h2>
         <div id="tienda-items"></div>
-      </section>
-
-      <section id="recompensas" class="tab">
-        <h2>Recompensas Reclamadas</h2>
-        <div id="recompensas-canjeadas"></div>
       </section>
     </main>
   </div>
