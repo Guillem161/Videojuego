@@ -2,20 +2,14 @@ body {
   font-family: 'Segoe UI', sans-serif;
   margin: 0;
   padding: 0;
-  background: #f0f2f5;
+  background: #f4f4f8;
   color: #333;
 }
 
-.app {
-  max-width: 700px;
-  margin: 0 auto;
-  padding: 1rem;
-}
-
 header {
-  background: white;
+  background: #fff;
   padding: 1rem;
-  border-bottom: 2px solid #ddd;
+  border-bottom: 2px solid #eee;
   text-align: center;
 }
 
@@ -25,30 +19,32 @@ header {
 }
 
 nav button {
-  margin: 0.25rem;
+  margin: 0.3rem;
   padding: 0.5rem 1rem;
+  border: none;
   background: #0077ff;
   color: white;
-  border: none;
   border-radius: 6px;
   cursor: pointer;
 }
 
-nav button:hover {
-  background: #005fcc;
+main {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 1rem;
 }
 
 .tab {
   display: none;
-  padding: 1rem;
-  background: white;
-  border-radius: 10px;
-  margin-top: 1rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .tab.visible {
   display: block;
+  background: white;
+  padding: 1rem;
+  margin-top: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 #habilidades div, #misiones div, #tienda-items div, #recompensas-lista div {
@@ -59,6 +55,3 @@ nav button:hover {
   border-radius: 8px;
 }
 
-.hidden {
-  display: none;
-}
