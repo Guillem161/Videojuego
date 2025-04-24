@@ -29,7 +29,7 @@ function guardarEstado() {
 function render() {
   monedasEl.textContent = `🪙 ${estado.monedas}`;
   corazonesEl.textContent = `❤️ ${estado.corazones}`;
-  huchaEl.textContent = `💵 ${estado.hucha} €`;
+  huchaEl.textContent = `💵 ${estado.hucha.toFixed(2)} €`;
 
   habilidadesEl.innerHTML = '';
   Object.entries(estado.habilidades).forEach(([nombre, nivel]) => {
