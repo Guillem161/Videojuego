@@ -35,8 +35,15 @@ function render() {
 
   habilidadesEl.innerHTML = '';
   Object.entries(estado.habilidades).forEach(([nombre, { nivel, xp }]) => {
+    const maxXP = xpRequerido(nivel);
+    const porcentaje = Math.min((xp / maxXP) * 100, 100);
     const div = document.createElement('div');
-    div.textContent = `${nombre}: Nivel ${nivel} | XP: ${xp}/${xpRequerido(nivel)}`;
+    div.innerHTML = `
+      <strong>${nombre}</strong>: Nivel ${nivel} | XP: ${xp}/${maxXP}
+      <div style="background:#ddd; border-radius:8px; height:10px; margin-top:5px;">
+        <div style="width:${porcentaje}%; background:#4caf50; height:100%; border-radius:8px;"></div>
+      </div>
+    `;
     habilidadesEl.appendChild(div);
   });
 
