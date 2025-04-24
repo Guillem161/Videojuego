@@ -3,23 +3,23 @@ const corazonesEl = document.getElementById('corazones');
 const habilidadesEl = document.getElementById('habilidades');
 const misionesEl = document.getElementById('misiones');
 const tiendaEl = document.getElementById('tienda-items');
-const recompensasEl = document.getElementById('recompensas-items');
+const huchaEl = document.getElementById('hucha');
 
 let estado = JSON.parse(localStorage.getItem('videojuegoVida')) || {
   monedas: 0,
   corazones: 10,
+  hucha: 0, // Dinero real
   habilidades: {
-    Lectura: { nivel: 1, xp: 0 },
-    Gimnasio: { nivel: 1, xp: 0 },
-    Backtesting: { nivel: 1, xp: 0 },
-    VidaEspiritual: { nivel: 1, xp: 0 },
-    Alimentacion: { nivel: 1, xp: 0 },
-    Estudio: { nivel: 1, xp: 0 },
-    Social: { nivel: 1, xp: 0 },
-    Idioma: { nivel: 1, xp: 0 }
+    Lectura: 0,
+    Gimnasio: 0,
+    Backtesting: 0,
+    VidaEspiritual: 0,
+    Alimentacion: 0,
+    Estudio: 0,
+    Social: 0,
+    Idioma: 0
   },
-  misiones: {},
-  recompensas: []
+  misiones: {}
 };
 
 function guardarEstado() {
@@ -29,28 +29,37 @@ function guardarEstado() {
 function render() {
   monedasEl.textContent = `🪙 ${estado.monedas}`;
   corazonesEl.textContent = `❤️ ${estado.corazones}`;
+  huchaEl.textContent = `💵 ${estado.hucha} €`;
 
   habilidadesEl.innerHTML = '';
-  Object.entries(estado.habilidades).forEach(([nombre, { nivel, xp }]) => {
+  Object.entries(estado.habilidades).forEach(([nombre, nivel]) => {
     const div = document.createElement('div');
-    const barra = document.createElement('div');
-    barra.classList.add('barra');
-    barra.style.width = `${(xp / (100 * nivel)) * 100}%`;
-    
-    div.innerHTML = `${nombre}: Nivel ${nivel} <br/> XP: ${xp}`;
-    div.appendChild(barra);
+    div.textContent = `${nombre}: Nivel ${nivel}`;
     habilidadesEl.appendChild(div);
+
+    // Visualización de la barra de nivel
+    const barra = document.createElement('div');
+    barra.style.display = 'flex';
+    for (let i = 0; i < 10; i++) {
+      const cuadrado = document.createElement('div');
+      cuadrado.style.width = '20px';
+      cuadrado.style.height = '20px';
+      cuadrado.style.marginRight = '5px';
+      cuadrado.style.backgroundColor = i < nivel ? 'green' : 'gray';
+      barra.appendChild(cuadrado);
+    }
+    habilidadesEl.appendChild(barra);
   });
 
   const tareas = [
-    { nombre: 'Leer 30 min', hab: 'Lectura', xp: 100, monedas: 5 },
-    { nombre: 'Gimnasio o correr', hab: 'Gimnasio', xp: 100, monedas: 10 },
-    { nombre: 'Backtesting 2h', hab: 'Backtesting', xp: 100, monedas: 10 },
-    { nombre: 'Meditar y agradecer', hab: 'VidaEspiritual', xp: 100, monedas: 5 },
-    { nombre: 'Comer saludable', hab: 'Alimentacion', xp: 100, monedas: 10 },
-    { nombre: 'Estudio 1h', hab: 'Estudio', xp: 100, monedas: 5 },
-    { nombre: 'Conversación interesante', hab: 'Social', xp: 100, monedas: 5 },
-    { nombre: 'Aprender Idioma', hab: 'Idioma', xp: 100, monedas: 5 },
+    { nombre: 'Leer 30 min', hab: 'Lectura', xp: 1, monedas: 5 },
+    { nombre: 'Gimnasio o correr', hab: 'Gimnasio', xp: 1, monedas: 10 },
+    { nombre: 'Backtesting 2h', hab: 'Backtesting', xp: 1, monedas: 10 },
+    { nombre: 'Meditar y agradecer', hab: 'VidaEspiritual', xp: 1, monedas: 5 },
+    { nombre: 'Comer saludable', hab: 'Alimentacion', xp: 1, monedas: 10 },
+    { nombre: 'Estudio 1h', hab: 'Estudio', xp: 1, monedas: 5 },
+    { nombre: 'Conversación interesante', hab: 'Social', xp: 1, monedas: 5 },
+    { nombre: 'Aprender Idioma', hab: 'Idioma', xp: 1, monedas: 5 },
   ];
 
   misionesEl.innerHTML = '';
@@ -59,12 +68,7 @@ function render() {
     const btn = document.createElement('button');
     btn.textContent = 'Completar';
     btn.onclick = () => {
-      if (estado.habilidades[t.hab].xp + t.xp >= 100 * estado.habilidades[t.hab].nivel) {
-        estado.habilidades[t.hab].nivel += 1;
-        estado.habilidades[t.hab].xp = 0;
-      } else {
-        estado.habilidades[t.hab].xp += t.xp;
-      }
+      estado.habilidades[t.hab] += t.xp;
       estado.monedas += t.monedas;
       guardarEstado();
       render();
@@ -74,7 +78,6 @@ function render() {
     misionesEl.appendChild(div);
   });
 
-  // Recompensas actualizadas
   const recompensas = [
     { nombre: '1 hora de videojuegos', costo: 100, descripcion: 'Disfruta de tu juego favorito.' },
     { nombre: 'Ver una película', costo: 100, descripcion: 'Relájate viendo una película o serie.' },
@@ -86,41 +89,27 @@ function render() {
     { nombre: 'Viaje de 2 días', costo: 1000, descripcion: 'Un viaje corto a un lugar nuevo.' },
     { nombre: 'Viaje de 3 días', costo: 1500, descripcion: 'Un viaje largo para relajarte y explorar.' },
     { nombre: 'Viaje internacional', costo: 3000, descripcion: 'Un viaje internacional a un destino que siempre has querido visitar.' },
-    { nombre: 'Intercambiar monedas por dinero real', costo: 5000, descripcion: '50 monedas = 1 euro real para gastar libremente.' },
-    { nombre: 'Saltarse la dieta', costo: 150, descripcion: 'Te permites un día para saltarte la dieta y comer lo que quieras.' }
+    { nombre: 'Intercambiar monedas por dinero real', costo: 5000, descripcion: 'Intercambia tus monedas virtuales por dinero real. 50 🪙 = 1 euro.' }
   ];
 
   tiendaEl.innerHTML = '';
   recompensas.forEach((r) => {
     const div = document.createElement('div');
     const btn = document.createElement('button');
-    btn.textContent = 'Comprar';
+    btn.textContent = `Comprar: ${r.nombre} - ${r.costo} 🪙`;
     btn.onclick = () => {
       if (estado.monedas >= r.costo) {
         estado.monedas -= r.costo;
-        estado.recompensas.push(r);
+        if (r.nombre === 'Intercambiar monedas por dinero real') {
+          estado.hucha += (r.costo / 50); // Convierte monedas virtuales a dinero real
+        }
         guardarEstado();
         render();
       }
     };
-    div.innerHTML = `<strong>${r.nombre}</strong><br/>Costo: ${r.costo} 🪙 - ${r.descripcion}`;
+    div.innerHTML = `<strong>${r.nombre}</strong><br/>Costo: ${r.costo} 🪙<br/>Descripción: ${r.descripcion}`;
     div.appendChild(btn);
     tiendaEl.appendChild(div);
-  });
-
-  recompensasEl.innerHTML = '';
-  estado.recompensas.forEach((r) => {
-    const div = document.createElement('div');
-    const btn = document.createElement('button');
-    btn.textContent = 'Gastar';
-    btn.onclick = () => {
-      estado.recompensas = estado.recompensas.filter(recompensa => recompensa !== r);
-      guardarEstado();
-      render();
-    };
-    div.innerHTML = `<strong>${r.nombre}</strong><br/> ${r.descripcion}`;
-    div.appendChild(btn);
-    recompensasEl.appendChild(div);
   });
 }
 
