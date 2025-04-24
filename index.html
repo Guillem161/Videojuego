@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Videojuego De Tu Vida</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Videojuego de Vida</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
@@ -18,21 +18,22 @@
       <button onclick="showTab('recompensas')">Recompensas</button>
     </nav>
   </header>
+
   <main>
-    <section id="inicio" class="tab hidden">
+    <section id="inicio" class="tab visible">
       <h2>Habilidades</h2>
       <div id="habilidades"></div>
     </section>
 
     <section id="misiones" class="tab hidden">
       <h2>Misiones Diarias</h2>
-      <div id="misiones"></div>
+      <div id="misiones-lista"></div>
     </section>
 
     <section id="tienda" class="tab hidden">
-      <h2>Tienda</h2>
+      <h2>Tienda de Recompensas</h2>
       <div id="tienda-items"></div>
-      <h3>Hucha 💰: <span id="hucha"></span> €</h3>
+      <h3>💰 Hucha: <span id="hucha">0</span> €</h3>
       <button onclick="restarHucha()">Restar 1€</button>
     </section>
 
@@ -42,87 +43,6 @@
     </section>
   </main>
 
-  <script>
-    // Estado inicial para las primeras veces que se carga la página
-    const estadoInicial = {
-      monedas: 0,
-      corazones: 10,
-      hucha: 0,
-      habilidades: {
-        Lectura: { nivel: 0, xp: 0 },
-        Gimnasio: { nivel: 0, xp: 0 },
-        Backtesting: { nivel: 0, xp: 0 },
-        VidaEspiritual: { nivel: 0, xp: 0 },
-        Alimentacion: { nivel: 0, xp: 0 },
-        Estudio: { nivel: 0, xp: 0 },
-        Social: { nivel: 0, xp: 0 },
-        Idioma: { nivel: 0, xp: 0 }
-      },
-      recompensas: []
-    };
-
-    // Función para cargar el estado desde localStorage o usar el estado inicial si no hay nada guardado
-    function cargarEstado() {
-      const estadoGuardado = JSON.parse(localStorage.getItem("estado"));
-      return estadoGuardado || estadoInicial;
-    }
-
-    // Función para guardar el estado en localStorage
-    function guardarEstado(estado) {
-      localStorage.setItem("estado", JSON.stringify(estado));
-    }
-
-    // Función para renderizar la interfaz
-    function render() {
-      const estado = cargarEstado();
-
-      // Mostrar monedas y corazones
-      document.getElementById('monedas').innerText = `🪙 ${estado.monedas}`;
-      document.getElementById('corazones').innerText = `❤️ ${estado.corazones}`;
-      document.getElementById('hucha').innerText = estado.hucha;
-
-      // Mostrar habilidades
-      const habilidadesEl = document.getElementById('habilidades');
-      habilidadesEl.innerHTML = '';
-      Object.entries(estado.habilidades).forEach(([nombre, { nivel, xp }]) => {
-        const div = document.createElement('div');
-        div.innerText = `${nombre}: Nivel ${nivel} | XP: ${xp}`;
-        habilidadesEl.appendChild(div);
-      });
-
-      // Mostrar recompensas
-      const recompensasEl = document.getElementById('recompensas-lista');
-      recompensasEl.innerHTML = '';
-      estado.recompensas.forEach((recompensa) => {
-        const div = document.createElement('div');
-        div.innerText = recompensa;
-        recompensasEl.appendChild(div);
-      });
-    }
-
-    // Función para restar 1€ de la hucha
-    function restarHucha() {
-      const estado = cargarEstado();
-      if (estado.hucha >= 1) {
-        estado.hucha -= 1;
-        guardarEstado(estado);
-        render();
-      }
-    }
-
-    // Función para mostrar las pestañas
-    function showTab(tabId) {
-      document.querySelectorAll('.tab').forEach(tab => {
-        tab.classList.remove('visible');
-        tab.classList.add('hidden');
-      });
-      document.getElementById(tabId).classList.remove('hidden');
-      document.getElementById(tabId).classList.add('visible');
-    }
-
-    // Llamar a render para mostrar los datos
-    render();
-    showTab('inicio');
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
