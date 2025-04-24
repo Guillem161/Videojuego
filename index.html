@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Videojuego de Tu Vida</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Videojuego de Tu Vida</h1>
+        <div>
+            <p>Monedas: <span id="coins">0</span></p>
+            <p>Corazones: <span id="hearts">10</span></p>
+        </div>
+    </div>
+
+    <div class="tab-buttons">
+        <button onclick="showTab('missions')">Misiones</button>
+        <button onclick="showTab('skills')">Habilidades</button>
+        <button onclick="showTab('shop')">Tienda</button>
+    </div>
+
+    <div id="missions" class="tab-content">
+        <h2>Misiones</h2>
+        <ul id="mission-list"></ul>
+    </div>
+
+    <div id="skills" class="tab-content">
+        <h2>Habilidades</h2>
+        <div id="skill-list"></div>
+    </div>
+
+    <div id="shop" class="tab-content">
+        <h2>Tienda</h2>
+        <ul id="shop-list"></ul>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

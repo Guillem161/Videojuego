@@ -1,0 +1,36 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+.header {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+.tab-buttons {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+.tab-buttons button {
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+}
+.tab-content {
+    display: none;
+    padding: 20px;
+    text-align: center;
+}
+.tab-content.active {
+    display: block;
+}
+.tab-content ul {
+    list-style-type: none;
+}
+.tab-content li {
+    margin: 10px 0;
+}
