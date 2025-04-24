@@ -53,3 +53,7 @@ nav button {
   border: 1px solid #ddd;
   border-radius: 8px;
 }
+
+button {
+  margin-top: 10px;
+}
