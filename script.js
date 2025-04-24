@@ -3,7 +3,6 @@ const corazonesEl = document.getElementById('corazones');
 const habilidadesEl = document.getElementById('habilidades');
 const misionesEl = document.getElementById('misiones');
 const tiendaEl = document.getElementById('tienda-items');
-const recompensasEl = document.getElementById('recompensas-list');
 const recompensasCanjeadasEl = document.getElementById('recompensas-canjeadas');
 
 let estado = JSON.parse(localStorage.getItem('videojuegoVida')) || {
@@ -92,7 +91,7 @@ function render() {
     { nombre: 'Intercambiar monedas por dinero real', costo: 5000, requisito: '-', descripcion: 'Intercambia tus monedas virtuales por dinero real.' }
   ];
 
-  recompensasEl.innerHTML = '';
+  tiendaEl.innerHTML = '';
   recompensas.forEach((r) => {
     const div = document.createElement('div');
     const btn = document.createElement('button');
@@ -110,15 +109,21 @@ function render() {
     };
     div.innerHTML = `<strong>${r.nombre}</strong><br/>Costo: ${r.costo} 🪙 | Requisito: ${r.requisito}<br/>${r.descripcion}`;
     div.appendChild(btn);
-    recompensasEl.appendChild(div);
+    tiendaEl.appendChild(div);
   });
-}
 
-function mostrarRecompensasCanjeadas() {
   recompensasCanjeadasEl.innerHTML = '';
-  estado.recompensasCanjeadas.forEach((recompensa) => {
+  estado.recompensasCanjeadas.forEach((r) => {
     const div = document.createElement('div');
-    div.textContent = recompensa;
+    const btn = document.createElement('button');
+    btn.textContent = 'Gastarla';
+    btn.onclick = () => {
+      estado.recompensasCanjeadas = estado.recompensasCanjeadas.filter(recompensa => recompensa !== r);
+      guardarEstado();
+      render();
+    };
+    div.innerHTML = `<strong>${r}</strong>`;
+    div.appendChild(btn);
     recompensasCanjeadasEl.appendChild(div);
   });
 }
