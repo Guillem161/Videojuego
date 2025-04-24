@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,35 +8,38 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="header">
-        <h1>Videojuego de Tu Vida</h1>
-        <div>
-            <p>Monedas: <span id="coins">0</span></p>
-            <p>Corazones: <span id="hearts">10</span></p>
+    <header>
+        <div class="stats">
+            <span id="hearts">❤️ x10</span>
+            <span id="coins">🪙 x0</span>
         </div>
-    </div>
-
-    <div class="tab-buttons">
-        <button onclick="showTab('missions')">Misiones</button>
-        <button onclick="showTab('skills')">Habilidades</button>
-        <button onclick="showTab('shop')">Tienda</button>
-    </div>
-
-    <div id="missions" class="tab-content">
-        <h2>Misiones</h2>
-        <ul id="mission-list"></ul>
-    </div>
-
-    <div id="skills" class="tab-content">
-        <h2>Habilidades</h2>
-        <div id="skill-list"></div>
-    </div>
-
-    <div id="shop" class="tab-content">
-        <h2>Tienda</h2>
-        <ul id="shop-list"></ul>
-    </div>
-
+        <div class="countdown" id="day-timer">Tiempo restante: 24h</div>
+    </header>
+    <nav>
+        <button onclick="showTab('inicio')">🏠 Inicio</button>
+        <button onclick="showTab('misiones')">📋 Misiones</button>
+        <button onclick="showTab('tienda')">🛍 Tienda</button>
+    </nav>
+    <main>
+        <section id="inicio" class="tab active">
+            <h2>Habilidades</h2>
+            <div class="skill" id="habilidades">
+                <!-- Habilidades se renderizarán aquí -->
+            </div>
+        </section>
+        <section id="misiones" class="tab">
+            <h2>Misiones Diarias</h2>
+            <div id="misiones-container">
+                <!-- Misiones se renderizan con JS -->
+            </div>
+        </section>
+        <section id="tienda" class="tab">
+            <h2>Tienda de Recompensas</h2>
+            <div id="tienda-container">
+                <!-- Recompensas se renderizan con JS -->
+            </div>
+        </section>
+    </main>
     <script src="script.js"></script>
 </body>
 </html>

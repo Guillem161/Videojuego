@@ -1,36 +1,66 @@
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', sans-serif;
+    background: #f0f2f5;
     margin: 0;
     padding: 0;
 }
-.header {
-    background-color: #333;
-    color: white;
-    padding: 10px;
-    text-align: center;
-}
-.tab-buttons {
+
+header {
     display: flex;
-    justify-content: center;
-    margin: 20px 0;
+    justify-content: space-between;
+    align-items: center;
+    background: #2d3436;
+    color: white;
+    padding: 1rem;
 }
-.tab-buttons button {
-    padding: 10px;
-    margin: 5px;
+
+nav {
+    display: flex;
+    justify-content: space-around;
+    background: #00b894;
+}
+
+nav button {
+    flex: 1;
+    padding: 1rem;
+    font-size: 1rem;
+    background: #00cec9;
+    border: none;
+    color: white;
     cursor: pointer;
 }
-.tab-content {
-    display: none;
-    padding: 20px;
-    text-align: center;
+
+nav button:hover {
+    background: #01a3a4;
 }
-.tab-content.active {
+
+main {
+    padding: 1rem;
+}
+
+.tab {
+    display: none;
+}
+
+.tab.active {
     display: block;
 }
-.tab-content ul {
-    list-style-type: none;
+
+.skill, .mission, .reward {
+    background: white;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
-.tab-content li {
-    margin: 10px 0;
+
+button.complete-btn {
+    background: #6c5ce7;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 0.5rem;
 }

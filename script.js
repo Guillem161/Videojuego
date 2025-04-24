@@ -1,112 +1,100 @@
 
-let coins = 0;
-let hearts = 10;
-
-const missions = [
-    { name: "Leer 30 minutos", xp: 10, coins: 5 },
-    { name: "Ir al gimnasio o correr", xp: 15, coins: 10 },
-    { name: "2 horas de backtesting", xp: 15, coins: 10 },
-    { name: "Meditar y agradecer a Dios", xp: 10, coins: 5 },
-    { name: "Comer saludablemente todo el día", xp: 15, coins: 10 },
-    { name: "Aprender algo nuevo por 1 hora", xp: 10, coins: 5 },
-    { name: "Mantener una conversación interesante", xp: 10, coins: 5 },
-    { name: "Aprender/practicar idiomas", xp: 10, coins: 5 }
+const habilidades = [
+    { nombre: "Lectura", nivel: 1, xp: 0 },
+    { nombre: "Gimnasio", nivel: 1, xp: 0 },
+    { nombre: "Backtesting", nivel: 1, xp: 0 },
+    { nombre: "Vida Espiritual", nivel: 1, xp: 0 },
+    { nombre: "Alimentación", nivel: 1, xp: 0 },
+    { nombre: "Estudio", nivel: 1, xp: 0 },
+    { nombre: "Social", nivel: 1, xp: 0 },
+    { nombre: "Idioma", nivel: 1, xp: 0 }
 ];
 
-const skills = [
-    { name: "Lectura", level: 1 },
-    { name: "Gimnasio", level: 1 },
-    { name: "Backtesting", level: 1 },
-    { name: "Vida Espiritual", level: 1 },
-    { name: "Alimentación", level: 1 },
-    { name: "Estudio", level: 1 },
-    { name: "Social", level: 1 },
-    { name: "Idioma", level: 1 }
+const misiones = [
+    { nombre: "Leer 30 minutos", xp: 10 },
+    { nombre: "Ir al gimnasio o correr", xp: 15 },
+    { nombre: "2 horas de backtesting", xp: 15 },
+    { nombre: "Meditar y agradecer", xp: 10 },
+    { nombre: "Comer saludablemente", xp: 15 },
+    { nombre: "Aprender algo nuevo", xp: 10 },
+    { nombre: "Conversación interesante", xp: 10 },
+    { nombre: "Practicar idiomas", xp: 10 }
 ];
 
-const rewards = [
-    { name: "1 hora de videojuegos", cost: 100 },
-    { name: "Ver una película", cost: 100 },
-    { name: "Comer snack no saludable", cost: 100 },
-    { name: "Día libre de tareas", cost: 150 },
-    { name: "Saltarse la dieta", cost: 150 },
-    { name: "Comida en restaurante", cost: 300 },
-    { name: "Ruta en moto", cost: 350 },
-    { name: "Viaje de 1 día", cost: 500 },
-    { name: "Viaje de 2 días", cost: 700 },
-    { name: "Viaje de 3 días", cost: 1000 },
-    { name: "Intercambio de monedas por 1€", cost: 50 }
+const tienda = [
+    { nombre: "1 hora de videojuegos", costo: 100 },
+    { nombre: "Ver una película", costo: 100 },
+    { nombre: "Snack no saludable", costo: 100 }
 ];
+
+let monedas = 0;
+let corazones = 10;
 
 function showTab(tab) {
-    const tabs = document.querySelectorAll('.tab-content');
-    tabs.forEach(tabContent => tabContent.style.display = 'none');
-    document.getElementById(tab).style.display = 'block';
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(tab).classList.add('active');
 }
 
-function updateStatus() {
-    document.getElementById('coins').textContent = coins;
-    document.getElementById('hearts').textContent = hearts;
-}
-
-function generateMissionList() {
-    const missionList = document.getElementById('mission-list');
-    missionList.innerHTML = '';
-    missions.forEach(mission => {
-        const li = document.createElement('li');
-        li.textContent = mission.name;
-        const button = document.createElement('button');
-        button.className = 'complete';
-        button.textContent = 'Completar';
-        button.onclick = () => completeMission(mission);
-        li.appendChild(button);
-        missionList.appendChild(li);
-    });
-}
-
-function generateSkillList() {
-    const skillList = document.getElementById('skill-list');
-    skillList.innerHTML = '';
-    skills.forEach(skill => {
+function renderHabilidades() {
+    const contenedor = document.getElementById('habilidades');
+    contenedor.innerHTML = '';
+    habilidades.forEach(h => {
         const div = document.createElement('div');
-        div.textContent = `${skill.name}: Nivel ${skill.level}`;
-        skillList.appendChild(div);
+        div.className = 'skill';
+        div.textContent = `${h.nombre}: Nivel ${h.nivel} (${h.xp}/100 XP)`;
+        contenedor.appendChild(div);
     });
 }
 
-function generateShopList() {
-    const shopList = document.getElementById('shop-list');
-    shopList.innerHTML = '';
-    rewards.forEach(reward => {
-        const li = document.createElement('li');
-        li.textContent = `${reward.name} - Costo: ${reward.cost} monedas`;
-        const button = document.createElement('button');
-        button.textContent = 'Gastar';
-        button.onclick = () => spendReward(reward);
-        li.appendChild(button);
-        shopList.appendChild(li);
+function renderMisiones() {
+    const contenedor = document.getElementById('misiones-container');
+    contenedor.innerHTML = '';
+    misiones.forEach((m, index) => {
+        const div = document.createElement('div');
+        div.className = 'mission';
+        div.innerHTML = `<strong>${m.nombre}</strong><br>+${m.xp} XP <br><button class="complete-btn" onclick="completarMision(${index})">Completar</button>`;
+        contenedor.appendChild(div);
     });
 }
 
-function completeMission(mission) {
-    coins += mission.coins;
-    updateStatus();
-    generateMissionList(); // Regenerar la lista de misiones
+function completarMision(index) {
+    const mision = misiones[index];
+    monedas += 5;
+    habilidades[index % habilidades.length].xp += mision.xp;
+    if (habilidades[index % habilidades.length].xp >= 100) {
+        habilidades[index % habilidades.length].nivel += 1;
+        habilidades[index % habilidades.length].xp = 0;
+    }
+    updateStats();
+    renderHabilidades();
 }
 
-function spendReward(reward) {
-    if (coins >= reward.cost) {
-        coins -= reward.cost;
-        alert(`Has gastado ${reward.cost} monedas en ${reward.name}`);
-        updateStatus();
-        generateShopList(); // Regenerar la lista de recompensas
+function renderTienda() {
+    const contenedor = document.getElementById('tienda-container');
+    contenedor.innerHTML = '';
+    tienda.forEach((r) => {
+        const div = document.createElement('div');
+        div.className = 'reward';
+        div.innerHTML = `<strong>${r.nombre}</strong><br>${r.costo} 🪙 <br><button class="complete-btn" onclick="comprar('${r.nombre}', ${r.costo})">Canjear</button>`;
+        contenedor.appendChild(div);
+    });
+}
+
+function comprar(nombre, costo) {
+    if (monedas >= costo) {
+        monedas -= costo;
+        alert(`Has canjeado: ${nombre}`);
+        updateStats();
     } else {
-        alert('No tienes suficientes monedas.');
+        alert("No tienes suficientes monedas.");
     }
 }
 
-generateMissionList();
-generateSkillList();
-generateShopList();
-updateStatus();
-showTab('missions');
+function updateStats() {
+    document.getElementById('coins').textContent = `🪙 x${monedas}`;
+    document.getElementById('hearts').textContent = `❤️ x${corazones}`;
+}
+
+renderHabilidades();
+renderMisiones();
+renderTienda();
