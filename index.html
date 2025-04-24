@@ -42,7 +42,6 @@
     </section>
   </main>
 
-  <!-- Add Firebase SDKs here -->
   <script type="module">
     // Import the necessary functions from Firebase SDK
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
@@ -101,6 +100,7 @@
     // Función para mostrar el estado en la interfaz
     async function render() {
       const estado = await cargarEstado();
+      console.log(estado); // Verifica que el estado se ha cargado correctamente
 
       // Mostrar monedas y corazones
       document.getElementById('monedas').innerText = `🪙 ${estado.monedas}`;
