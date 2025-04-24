@@ -89,7 +89,7 @@ function render() {
     { nombre: 'Viaje de 2 días', costo: 1000, descripcion: 'Un viaje corto a un lugar nuevo.' },
     { nombre: 'Viaje de 3 días', costo: 1500, descripcion: 'Un viaje largo para relajarte y explorar.' },
     { nombre: 'Viaje internacional', costo: 3000, descripcion: 'Un viaje internacional a un destino que siempre has querido visitar.' },
-    { nombre: 'Intercambiar monedas por dinero real', costo: 5000, descripcion: 'Intercambia tus monedas virtuales por dinero real. 50 🪙 = 1 euro.' }
+    { nombre: 'Intercambiar monedas por dinero real', costo: 50, descripcion: 'Intercambia tus monedas virtuales por dinero real. 50 🪙 = 1 euro.' }
   ];
 
   tiendaEl.innerHTML = '';
@@ -116,7 +116,6 @@ function render() {
 function showTab(tabId) {
   document.querySelectorAll('.tab').forEach(tab => tab.classList.add('hidden'));
   document.getElementById(tabId).classList.remove('hidden');
-  document.getElementById(tabId).classList.add('visible');
 }
 
 render();
