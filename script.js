@@ -74,12 +74,22 @@ function render() {
     misionesEl.appendChild(div);
   });
 
+  // Recompensas actualizadas
   const recompensas = [
-    { nombre: '1 hora de videojuegos', costo: 50, descripcion: 'Disfruta de tu juego favorito.' },
-    { nombre: 'Ver una película', costo: 60, descripcion: 'Relájate viendo una película o serie.' },
-    { nombre: 'Comida en restaurante', costo: 150, descripcion: 'Disfruta de una comida fuera de casa.' },
-    { nombre: 'Viaje corto', costo: 500, descripcion: 'Escápate a un destino cercano.' }
+    { nombre: '1 hora de videojuegos', costo: 100, descripcion: 'Disfruta de tu juego favorito.' },
+    { nombre: 'Ver una película', costo: 100, descripcion: 'Relájate viendo una película o serie.' },
+    { nombre: 'Día libre de tareas', costo: 150, descripcion: 'Un día sin tareas para relajarte.' },
+    { nombre: 'Comida en restaurante', costo: 300, descripcion: 'Disfruta de una comida fuera de casa.' },
+    { nombre: 'Comer snack no saludable', costo: 100, descripcion: 'De vez en cuando, disfruta de un capricho.' },
+    { nombre: 'Ruta en moto', costo: 350, descripcion: 'Sal a disfrutar de una ruta en moto.' },
+    { nombre: 'Viaje de un día', costo: 500, descripcion: 'Escápate a un destino cercano y disfruta del día.' },
+    { nombre: 'Viaje de 2 días', costo: 1000, descripcion: 'Un viaje corto a un lugar nuevo.' },
+    { nombre: 'Viaje de 3 días', costo: 1500, descripcion: 'Un viaje largo para relajarte y explorar.' },
+    { nombre: 'Viaje internacional', costo: 3000, descripcion: 'Un viaje internacional a un destino que siempre has querido visitar.' },
+    { nombre: 'Intercambiar monedas por dinero real', costo: 5000, descripcion: '50 monedas = 1 euro real para gastar libremente.' },
+    { nombre: 'Saltarse la dieta', costo: 150, descripcion: 'Te permites un día para saltarte la dieta y comer lo que quieras.' }
   ];
+
   tiendaEl.innerHTML = '';
   recompensas.forEach((r) => {
     const div = document.createElement('div');
