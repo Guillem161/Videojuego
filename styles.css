@@ -1,15 +1,55 @@
-body { font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; background: #f4f4f8; color: #333; }
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f8;
+    color: #333;
+}
 
-.app { max-width: 600px; margin: 0 auto; padding: 1rem; }
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #fff;
+    padding: 1rem;
+    border-bottom: 2px solid #eee;
+}
 
-header { display: flex; flex-direction: column; align-items: center; background: #fff; padding: 1rem; border-bottom: 2px solid #eee; }
+.status {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
 
-.status { font-size: 1.2rem; margin-bottom: 0.5rem; }
+nav button {
+    margin: 0 0.5rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    background: #0077ff;
+    color: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+}
 
-nav button { margin: 0 0.5rem; padding: 0.5rem 1rem; border: none; background: #0077ff; color: #fff; border-radius: 6px; cursor: pointer; }
+.tab {
+    display: none;
+    padding: 1rem;
+    background: white;
+    border-radius: 10px;
+    margin-top: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
 
-.tab { display: none; padding: 1rem; background: white; border-radius: 10px; margin-top: 1rem; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+.tab.visible {
+    display: block;
+}
 
-.tab.visible { display: block; }
-
-#habilidades div, #misiones div, #tienda-items div, #recompensas-lista div { margin-bottom: 1rem; padding: 1rem; background: #fafafa; border: 1px solid #ddd; border-radius: 8px; }
+#habilidades div,
+#misiones div,
+#tienda-items div,
+#recompensas-lista div {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
