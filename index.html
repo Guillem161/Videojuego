@@ -1,23 +1,47 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Videojuego de Tu Vida</title>
-  <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="style.css" />
-  <script defer src="app.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Videojuego de Tu Vida</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>🎮 Videojuego de Tu Vida</h1>
-  <section id="daily-missions">
-    <h2>📅 Misiones Diarias</h2>
-    <ul id="mission-list"></ul>
-  </section>
-  <section id="stats">
-    <h2>📊 Estadísticas</h2>
-    <p><strong>Monedas:</strong> <span id="coins">0</span></p>
-    <p><strong>Corazones:</strong> <span id="hearts">10</span> ❤️</p>
-  </section>
+    <div class="header">
+        <h1>El Videojuego de Tu Vida</h1>
+        <div id="status-bar">
+            <p>Monedas: <span id="coins">0</span> 🪙</p>
+            <p>Corazones: <span id="hearts">10</span> ❤️</p>
+        </div>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-button" onclick="showTab('missions')">Misiones</button>
+        <button class="tab-button" onclick="showTab('skills')">Habilidades</button>
+        <button class="tab-button" onclick="showTab('shop')">Tienda</button>
+    </div>
+
+    <div id="missions" class="tab-content">
+        <h2>Misiones Diarias</h2>
+        <ul id="mission-list">
+            <!-- Misiones se generarán aquí -->
+        </ul>
+    </div>
+
+    <div id="skills" class="tab-content" style="display: none;">
+        <h2>Habilidades</h2>
+        <div id="skill-list">
+            <!-- Habilidades se generarán aquí -->
+        </div>
+    </div>
+
+    <div id="shop" class="tab-content" style="display: none;">
+        <h2>Tienda de Recompensas</h2>
+        <ul id="shop-list">
+            <!-- Recompensas se generarán aquí -->
+        </ul>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
