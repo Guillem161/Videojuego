@@ -4,42 +4,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Videojuego de Tu Vida</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        .tab-buttons {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .tab-buttons button {
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .tab-content {
+            display: none;
+            padding: 20px;
+            text-align: center;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .tab-content ul {
+            list-style-type: none;
+        }
+        .tab-content li {
+            margin: 10px 0;
+        }
+    </style>
 </head>
 <body>
     <div class="header">
-        <h1>El Videojuego de Tu Vida</h1>
-        <div id="status-bar">
-            <p>Monedas: <span id="coins">0</span> 🪙</p>
-            <p>Corazones: <span id="hearts">10</span> ❤️</p>
+        <h1>Videojuego de Tu Vida</h1>
+        <div>
+            <p>Monedas: <span id="coins">0</span></p>
+            <p>Corazones: <span id="hearts">10</span></p>
         </div>
     </div>
 
-    <div class="tabs">
-        <button class="tab-button" onclick="showTab('missions')">Misiones</button>
-        <button class="tab-button" onclick="showTab('skills')">Habilidades</button>
-        <button class="tab-button" onclick="showTab('shop')">Tienda</button>
+    <div class="tab-buttons">
+        <button onclick="showTab('missions')">Misiones</button>
+        <button onclick="showTab('skills')">Habilidades</button>
+        <button onclick="showTab('shop')">Tienda</button>
     </div>
 
     <div id="missions" class="tab-content">
-        <h2>Misiones Diarias</h2>
-        <ul id="mission-list">
-            <!-- Misiones se generarán aquí -->
-        </ul>
+        <h2>Misiones</h2>
+        <ul id="mission-list"></ul>
     </div>
 
-    <div id="skills" class="tab-content" style="display: none;">
+    <div id="skills" class="tab-content">
         <h2>Habilidades</h2>
-        <div id="skill-list">
-            <!-- Habilidades se generarán aquí -->
-        </div>
+        <div id="skill-list"></div>
     </div>
 
-    <div id="shop" class="tab-content" style="display: none;">
-        <h2>Tienda de Recompensas</h2>
-        <ul id="shop-list">
-            <!-- Recompensas se generarán aquí -->
-        </ul>
+    <div id="shop" class="tab-content">
+        <h2>Tienda</h2>
+        <ul id="shop-list"></ul>
     </div>
 
     <script src="script.js"></script>
