@@ -1,10 +1,31 @@
+// Importa las funciones necesarias de Firebase
+import { initializeApp } from 'firebase/app';
+import { getDatabase, ref, set, get } from 'firebase/database';
+
+// Tu configuración de Firebase (reemplaza estos valores con los tuyos)
+const firebaseConfig = {
+  apiKey: "TU_API_KEY",
+  authDomain: "TU_PROJECT_ID.firebaseapp.com",
+  databaseURL: "https://TU_PROJECT_ID.firebaseio.com",
+  projectId: "TU_PROJECT_ID",
+  storageBucket: "TU_PROJECT_ID.appspot.com",
+  messagingSenderId: "TU_SENDER_ID",
+  appId: "TU_APP_ID"
+};
+
+// Inicializa Firebase
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+// Referencias a elementos en el DOM
 const monedasEl = document.getElementById('monedas');
 const corazonesEl = document.getElementById('corazones');
 const habilidadesEl = document.getElementById('habilidades');
 const misionesEl = document.getElementById('misiones');
 const tiendaEl = document.getElementById('tienda-items');
 
-let estado = JSON.parse(localStorage.getItem('videojuegoVida')) || {
+// Estado del juego, que se almacenará en Firebase
+let estado = {
   monedas: 0,
   corazones: 10,
   habilidades: {
@@ -20,35 +41,54 @@ let estado = JSON.parse(localStorage.getItem('videojuegoVida')) || {
   misiones: {}
 };
 
+// Guardar el estado en Firebase
 function guardarEstado() {
-  localStorage.setItem('videojuegoVida', JSON.stringify(estado));
+  const estadoRef = ref(db, 'estado/juego');
+  set(estadoRef, estado);
 }
 
+// Cargar el estado desde Firebase
+function cargarEstado() {
+  const estadoRef = ref(db, 'estado/juego');
+  get(estadoRef).then((snapshot) => {
+    if (snapshot.exists()) {
+      estado = snapshot.val();
+      render();
+    } else {
+      // Si no hay datos, usar valores predeterminados
+      estado = {
+        monedas: 0,
+        corazones: 10,
+        habilidades: {
+          Lectura: 0,
+          Gimnasio: 0,
+          Backtesting: 0,
+          VidaEspiritual: 0,
+          Alimentacion: 0,
+          Estudio: 0,
+          Social: 0,
+          Idioma: 0
+        },
+        misiones: {}
+      };
+      render();
+    }
+  });
+}
+
+// Función para renderizar los datos en el DOM
 function render() {
-  // Actualizar el contador de monedas y corazones
   monedasEl.textContent = `🪙 ${estado.monedas}`;
   corazonesEl.textContent = `❤️ ${estado.corazones}`;
 
-  // Renderizar las habilidades con barras de progreso
   habilidadesEl.innerHTML = '';
   Object.entries(estado.habilidades).forEach(([nombre, nivel]) => {
     const div = document.createElement('div');
-    div.innerHTML = `<strong>${nombre}:</strong> Nivel ${nivel}`;
-    const barra = document.createElement('div');
-    barra.style.display = 'flex';
-    for (let i = 0; i < 10; i++) {
-      const cuadrado = document.createElement('div');
-      cuadrado.style.width = '20px';
-      cuadrado.style.height = '20px';
-      cuadrado.style.margin = '2px';
-      cuadrado.style.background = i < nivel ? '#4CAF50' : '#ddd';
-      barra.appendChild(cuadrado);
-    }
-    div.appendChild(barra);
+    div.innerHTML = `${nombre}: <div class="barra"><div class="nivel" style="width: ${nivel * 12}%"></div></div> Nivel ${nivel}`;
     habilidadesEl.appendChild(div);
   });
 
-  // Renderizar misiones diarias
+  // Mostrar misiones diarias
   const tareas = [
     { nombre: 'Leer 30 min', hab: 'Lectura', xp: 1, monedas: 5 },
     { nombre: 'Gimnasio o correr', hab: 'Gimnasio', xp: 1, monedas: 10 },
@@ -76,16 +116,13 @@ function render() {
     misionesEl.appendChild(div);
   });
 
-  // Renderizar la tienda y recompensas
+  // Recompensas disponibles en la tienda
   const recompensas = [
     { nombre: '1h videojuegos', costo: 100 },
     { nombre: 'Película', costo: 100 },
     { nombre: 'Comida en restaurante', costo: 300 },
-    { nombre: 'Nuevo gadget', costo: 500 },
-    { nombre: 'Viaje', costo: 1000 },
-    { nombre: 'Entrada a concierto', costo: 150 },
-    { nombre: 'Masajes', costo: 200 }
   ];
+  
   tiendaEl.innerHTML = '';
   recompensas.forEach((r) => {
     const div = document.createElement('div');
@@ -111,6 +148,8 @@ function showTab(tabId) {
   document.getElementById(tabId).classList.add('visible');
 }
 
-// Inicializar la aplicación y cargar el estado
-render();
-showTab('inicio');
+// Cargar el estado cuando la página se carga
+window.onload = function() {
+  cargarEstado();
+};
+
