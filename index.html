@@ -17,6 +17,7 @@
         <button onclick="showTab('inicio')">Inicio</button>
         <button onclick="showTab('misiones')">Misiones</button>
         <button onclick="showTab('tienda')">Tienda</button>
+        <button onclick="showTab('recompensas')">Recompensas</button>
       </nav>
     </header>
 
@@ -35,12 +36,13 @@
         <h2>Tienda</h2>
         <div id="tienda-items"></div>
       </section>
+
+      <section id="recompensas" class="tab hidden">
+        <h2>Recompensas</h2>
+        <div id="recompensas-list"></div>
+      </section>
     </main>
   </div>
-
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
 
   <script src="script.js"></script>
 </body>
