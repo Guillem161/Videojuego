@@ -1,46 +1,48 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Videojuego De Tu Vida</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Videojuego de Vida</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <div class="status">
-      <span id="monedas">🪙 0</span> | <span id="corazones">❤️ 10</span>
+  <div class="contenedor">
+    <h1>🎮 Videojuego de Vida</h1>
+
+    <div class="estadisticas">
+      <div id="monedas">🪙 0</div>
+      <div id="corazones">❤️ 10</div>
+      <div>💰 Hucha: <span id="hucha">0</span> € <button onclick="restarHucha()">Gastar 1€</button></div>
     </div>
-    <nav>
-      <button onclick="showTab('inicio')">Inicio</button>
-      <button onclick="showTab('misiones')">Misiones</button>
-      <button onclick="showTab('tienda')">Tienda</button>
-      <button onclick="showTab('recompensas')">Recompensas</button>
-    </nav>
-  </header>
-  <main>
-    <section id="inicio" class="tab hidden">
-      <h2>Habilidades</h2>
+
+    <div class="menu">
+      <button onclick="showTab('inicio')">🏠 Inicio</button>
+      <button onclick="showTab('misiones-tab')">🧭 Misiones</button>
+      <button onclick="showTab('tienda-tab')">🛒 Tienda</button>
+      <button onclick="showTab('recompensas-tab')">🎁 Recompensas</button>
+    </div>
+
+    <div id="inicio" class="tab visible">
+      <h2>📊 Habilidades</h2>
       <div id="habilidades"></div>
-    </section>
+    </div>
 
-    <section id="misiones" class="tab hidden">
-      <h2>Misiones Diarias</h2>
+    <div id="misiones-tab" class="tab hidden">
+      <h2>🧠 Misiones Diarias</h2>
       <div id="misiones"></div>
-    </section>
+    </div>
 
-    <section id="tienda" class="tab hidden">
-      <h2>Tienda</h2>
+    <div id="tienda-tab" class="tab hidden">
+      <h2>🛒 Tienda de Recompensas</h2>
       <div id="tienda-items"></div>
-      <h3>Hucha 💰: <span id="hucha"></span> €</h3>
-      <button onclick="restarHucha()">Restar 1€</button>
-    </section>
+    </div>
 
-    <section id="recompensas" class="tab hidden">
-      <h2>Recompensas Canjeadas</h2>
+    <div id="recompensas-tab" class="tab hidden">
+      <h2>🎁 Recompensas Obtenidas</h2>
       <div id="recompensas-lista"></div>
-    </section>
-  </main>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
