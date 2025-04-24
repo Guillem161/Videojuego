@@ -10,14 +10,14 @@ let estado = JSON.parse(localStorage.getItem('videojuegoVida')) || {
   monedas: 0,
   corazones: 10,
   habilidades: {
-    Lectura: 0,
-    Gimnasio: 0,
-    Backtesting: 0,
-    VidaEspiritual: 0,
-    Alimentacion: 0,
-    Estudio: 0,
-    Social: 0,
-    Idioma: 0
+    Lectura: { nivel: 0, experiencia: 0 },
+    Gimnasio: { nivel: 0, experiencia: 0 },
+    Backtesting: { nivel: 0, experiencia: 0 },
+    VidaEspiritual: { nivel: 0, experiencia: 0 },
+    Alimentacion: { nivel: 0, experiencia: 0 },
+    Estudio: { nivel: 0, experiencia: 0 },
+    Social: { nivel: 0, experiencia: 0 },
+    Idioma: { nivel: 0, experiencia: 0 }
   },
   misiones: {},
   recompensasCanjeadas: []
@@ -32,32 +32,31 @@ function render() {
   corazonesEl.textContent = `❤️ ${estado.corazones}`;
 
   habilidadesEl.innerHTML = '';
-  Object.entries(estado.habilidades).forEach(([nombre, nivel]) => {
+  Object.entries(estado.habilidades).forEach(([nombre, { nivel, experiencia }]) => {
     const div = document.createElement('div');
-    div.innerHTML = `<strong>${nombre}:</strong> Nivel ${nivel}`;
     const barra = document.createElement('div');
-    barra.style.display = 'flex';
+    barra.classList.add('barra-nivel');
+
     for (let i = 0; i < 10; i++) {
       const cuadrado = document.createElement('div');
-      cuadrado.style.width = '20px';
-      cuadrado.style.height = '20px';
-      cuadrado.style.margin = '2px';
       cuadrado.style.background = i < nivel ? '#4CAF50' : '#ddd';
       barra.appendChild(cuadrado);
     }
+
+    div.innerHTML = `<strong>${nombre}:</strong> Nivel ${nivel} | ${experiencia} XP`;
     div.appendChild(barra);
     habilidadesEl.appendChild(div);
   });
 
   const tareas = [
-    { nombre: 'Leer 30 min', hab: 'Lectura', xp: 1, monedas: 5 },
-    { nombre: 'Gimnasio o correr', hab: 'Gimnasio', xp: 1, monedas: 10 },
-    { nombre: 'Backtesting 2h', hab: 'Backtesting', xp: 1, monedas: 10 },
-    { nombre: 'Meditar y agradecer', hab: 'VidaEspiritual', xp: 1, monedas: 5 },
-    { nombre: 'Comer saludable', hab: 'Alimentacion', xp: 1, monedas: 10 },
-    { nombre: 'Estudio 1h', hab: 'Estudio', xp: 1, monedas: 5 },
-    { nombre: 'Conversación interesante', hab: 'Social', xp: 1, monedas: 5 },
-    { nombre: 'Aprender Idioma', hab: 'Idioma', xp: 1, monedas: 5 },
+    { nombre: 'Leer 30 min', hab: 'Lectura', xp: 100, monedas: 5 },
+    { nombre: 'Gimnasio o correr', hab: 'Gimnasio', xp: 100, monedas: 10 },
+    { nombre: 'Backtesting 2h', hab: 'Backtesting', xp: 100, monedas: 10 },
+    { nombre: 'Meditar y agradecer', hab: 'VidaEspiritual', xp: 100, monedas: 5 },
+    { nombre: 'Comer saludable', hab: 'Alimentacion', xp: 100, monedas: 10 },
+    { nombre: 'Estudio 1h', hab: 'Estudio', xp: 100, monedas: 5 },
+    { nombre: 'Conversación interesante', hab: 'Social', xp: 100, monedas: 5 },
+    { nombre: 'Aprender Idioma', hab: 'Idioma', xp: 100, monedas: 5 },
   ];
 
   misionesEl.innerHTML = '';
@@ -66,7 +65,10 @@ function render() {
     const btn = document.createElement('button');
     btn.textContent = 'Completar';
     btn.onclick = () => {
-      estado.habilidades[t.hab] += t.xp;
+      estado.habilidades[t.hab].experiencia += t.xp;
+      if (estado.habilidades[t.hab].experiencia >= (100 * (estado.habilidades[t.hab].nivel + 1))) {
+        estado.habilidades[t.hab].nivel++;
+      }
       estado.monedas += t.monedas;
       guardarEstado();
       render();
@@ -95,7 +97,7 @@ function render() {
     const div = document.createElement('div');
     const btn = document.createElement('button');
     btn.textContent = 'Comprar';
-    const requisitoCumplido = (r.requisito === '-' || Object.values(estado.habilidades).some(nivel => nivel >= parseInt(r.requisito.split(' ')[1])));
+    const requisitoCumplido = (r.requisito === '-' || Object.values(estado.habilidades).some(h => h.nivel >= parseInt(r.requisito.split(' ')[1])));
     
     btn.disabled = !requisitoCumplido || estado.monedas < r.costo;
     btn.onclick = () => {
@@ -122,8 +124,7 @@ function mostrarRecompensasCanjeadas() {
 }
 
 function showTab(tabName) {
-  document.querySelectorAll('.tab').forEach(tab => tab.classList.add('hidden'));
-  document.getElementById(tabName).classList.remove('hidden');
+  document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('visible'));
   document.getElementById(tabName).classList.add('visible');
 }
 
