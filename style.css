@@ -1,17 +1,16 @@
+/* Estilos generales */
 body {
   font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f4f8;
   margin: 0;
   padding: 0;
-  background: #f4f4f8;
   color: #333;
 }
 
 header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: #fff;
+  background-color: #ffffff;
   padding: 1rem;
+  text-align: center;
   border-bottom: 2px solid #eee;
 }
 
@@ -20,50 +19,99 @@ header {
   margin-bottom: 0.5rem;
 }
 
-nav button {
-  margin: 0 0.5rem;
-  padding: 0.5rem 1rem;
-  border: none;
-  background: #0077ff;
-  color: #fff;
-  border-radius: 6px;
-  cursor: pointer;
+nav {
+  margin: 1rem 0;
 }
 
+nav button {
+  background-color: #0077ff;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0 0.5rem;
+}
+
+nav button:hover {
+  background-color: #005bb5;
+}
+
+/* Contenedor de las pestañas */
 .tab {
   display: none;
-  padding: 1rem;
-  background: white;
+  padding: 1.5rem;
+  background-color: white;
   border-radius: 10px;
-  margin-top: 1rem;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 1rem;
 }
 
 .tab.visible {
   display: block;
 }
 
-#habilidades div, #misiones-lista div, #tienda-items div, #recompensas-lista div {
-  margin-bottom: 1rem;
-  padding: 1rem;
-  background: #fafafa;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+/* Estilo para las secciones de habilidades, misiones y recompensas */
+section {
+  margin-bottom: 2rem;
 }
 
+section h2 {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+}
+
+section div {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #fafafa;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+/* Estilo para los botones de las misiones */
 button {
-  background-color: #4CAF50;
-  border: none;
+  background-color: #28a745;
   color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin-top: 10px;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
+  margin-top: 0.5rem;
 }
 
 button:hover {
-  background-color: #45a049;
+  background-color: #218838;
+}
+
+button:active {
+  background-color: #1e7e34;
+}
+
+/* Estilo para la lista de recompensas */
+#recompensas-lista div {
+  padding: 0.8rem;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
+
+/* Hucha y monedas */
+#hucha {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Estilo general para el progreso de las habilidades */
+#habilidades div {
+  font-size: 1rem;
+  padding: 0.8rem;
+  background-color: #e6e6e6;
+  margin-bottom: 0.8rem;
+  border-radius: 6px;
+}
+
+#habilidades div strong {
+  font-weight: bold;
 }
