@@ -43,11 +43,9 @@
   </main>
 
   <script type="module">
-    // Import the necessary functions from Firebase SDK
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
     import { getFirestore, doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js';
 
-    // Tu configuración de Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyBnAIdWq32okAGc6yIlNv3ApBWZ9K7uGOo",
       authDomain: "juego-6f220.firebaseapp.com",
@@ -58,11 +56,10 @@
       measurementId: "G-ZBR21DXHRB"
     };
 
-    // Inicializa Firebase
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // Función para cargar el estado desde Firestore
+    // Cargar estado desde Firestore
     async function cargarEstado() {
       const docRef = doc(db, "estado", "videojuego");
       const docSnap = await getDoc(docRef);
@@ -85,22 +82,21 @@
           },
           recompensas: []
         };
-        // Guarda el estado inicial si no existe
         await setDoc(docRef, estadoInicial);
         return estadoInicial;
       }
     }
 
-    // Función para guardar el estado en Firestore
+    // Guardar estado en Firestore
     async function guardarEstado(estado) {
       const docRef = doc(db, "estado", "videojuego");
       await setDoc(docRef, estado);
     }
 
-    // Función para mostrar el estado en la interfaz
+    // Función para renderizar la interfaz
     async function render() {
       const estado = await cargarEstado();
-      console.log(estado); // Verifica que el estado se ha cargado correctamente
+      console.log(estado); // Verificar si el estado se carga correctamente
 
       // Mostrar monedas y corazones
       document.getElementById('monedas').innerText = `🪙 ${estado.monedas}`;
@@ -126,8 +122,29 @@
       });
     }
 
-    // Llamar la función render para cargar la interfaz
+    // Función para restar 1€ de la hucha
+    function restarHucha() {
+      const estado = cargarEstado();
+      if (estado.hucha >= 1) {
+        estado.hucha -= 1;
+        guardarEstado(estado);
+        render();
+      }
+    }
+
+    // Función para mostrar las pestañas
+    function showTab(tabId) {
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.classList.remove('visible');
+        tab.classList.add('hidden');
+      });
+      document.getElementById(tabId).classList.remove('hidden');
+      document.getElementById(tabId).classList.add('visible');
+    }
+
+    // Llamar a render para mostrar los datos
     render();
+    showTab('inicio');
   </script>
 </body>
 </html>
