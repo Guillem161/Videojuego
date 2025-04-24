@@ -1,11 +1,11 @@
 /* Estilos generales */
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f4f4f8;
-  margin: 0;
-  padding: 0;
-  color: #333;
+  background-image: url('img/diamond_sword.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
+
 
 header {
   background-color: #ffffff;
