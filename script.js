@@ -38,16 +38,15 @@ function render() {
 
   habilidadesEl.innerHTML = '';
   for (const [nombre, datos] of Object.entries(estado.habilidades)) {
-    const { nivel, xp } = datos;
+    const nivel = datos.nivel ?? 0;
+    const xp = datos.xp ?? 0;
     const xpNecesaria = calcularXpNecesaria(nivel);
-    const progreso = Math.min((xp / xpNecesaria) * 100, 100).toFixed(1);
 
     const div = document.createElement('div');
     div.innerHTML = `
-      <strong>${nombre}</strong>: Nivel ${nivel} - XP: ${xp}/${xpNecesaria}
-      <div style="background: #ddd; border-radius: 6px; overflow: hidden;">
-        <div style="width: ${progreso}%; background: #4caf50; padding: 2px 0; color: white; text-align: center;">${progreso}%</div>
-      </div>
+      <strong>${nombre}</strong><br/>
+      Nivel: ${nivel} <br/>
+      XP: ${xp} / ${xpNecesaria}
     `;
     habilidadesEl.appendChild(div);
   }
@@ -155,4 +154,3 @@ function showTab(tabId) {
 
 render();
 showTab('inicio');
-
