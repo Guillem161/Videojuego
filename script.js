@@ -81,8 +81,7 @@ function render() {
     { nombre: 'Viaje de un día', costo: 500 },
     { nombre: 'Viaje de 2 días', costo: 1000 },
     { nombre: 'Viaje de 3 días', costo: 1500 },
-    { nombre: 'Viaje internacional', costo: 3000 },
-    { nombre: 'Fondo de pantalla con espada de diamante', costo: 20 }
+    { nombre: 'Viaje internacional', costo: 3000 }
   ];
 
   tiendaEl.innerHTML = '';
@@ -91,4 +90,35 @@ function render() {
     const btn = document.createElement('button');
     btn.textContent = 'Comprar';
     btn.onclick = () => {
-      if (estado.m
+      if (estado.monedas >= r.costo) {
+        estado.monedas -= r.costo;
+        estado.recompensas.push(r.nombre);
+        guardarEstado();
+        render();
+      } else {
+        alert('No tienes suficientes monedas.');
+      }
+    };
+    div.innerHTML = `<strong>${r.nombre}</strong><br/>Costo: ${r.costo} 🪙`;
+    div.appendChild(btn);
+    tiendaEl.appendChild(div);
+  });
+
+  recompensasEl.innerHTML = '';
+  estado.recompensas.forEach((recompensa) => {
+    const div = document.createElement('div');
+    div.textContent = recompensa;
+    recompensasEl.appendChild(div);
+  });
+}
+
+function showTab(tab) {
+  document.querySelectorAll('.tab').forEach((el) => {
+    el.classList.remove('visible');
+    el.classList.add('hidden');
+  });
+  document.getElementById(tab).classList.remove('hidden');
+  document.getElementById(tab).classList.add('visible');
+}
+
+render();
