@@ -22,10 +22,12 @@ let estado = JSON.parse(localStorage.getItem('videojuegoVida')) || {
   recompensasCanjeadas: []
 };
 
+// Función para guardar el estado en el almacenamiento local
 function guardarEstado() {
   localStorage.setItem('videojuegoVida', JSON.stringify(estado));
 }
 
+// Función para renderizar la interfaz de usuario
 function render() {
   monedasEl.textContent = `🪙 ${estado.monedas}`;
   corazonesEl.textContent = `❤️ ${estado.corazones}`;
@@ -47,6 +49,7 @@ function render() {
     habilidadesEl.appendChild(div);
   });
 
+  // Misiones
   const tareas = [
     { nombre: 'Leer 30 min', hab: 'Lectura', xp: 100, monedas: 5 },
     { nombre: 'Gimnasio o correr', hab: 'Gimnasio', xp: 100, monedas: 10 },
@@ -77,6 +80,7 @@ function render() {
     misionesEl.appendChild(div);
   });
 
+  // Tienda y recompensas
   const recompensas = [
     { nombre: '1 hora de videojuegos', costo: 50, requisito: '-', descripcion: 'Disfruta de tu juego favorito.' },
     { nombre: 'Ver una película', costo: 60, requisito: '-', descripcion: 'Relájate viendo una película o serie.' },
@@ -128,9 +132,11 @@ function render() {
   });
 }
 
+// Función para cambiar entre pestañas
 function showTab(tabName) {
   document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('visible'));
   document.getElementById(tabName).classList.add('visible');
 }
 
+// Inicializar la visualización al cargar la página
 render();
