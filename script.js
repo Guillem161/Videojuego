@@ -23,12 +23,12 @@ let estado = JSON.parse(localStorage.getItem('videojuegoVida')) || {
   recompensas: []
 };
 
-function xpParaSiguienteNivel(nivel) {
-  return 100 + nivel * 100;
-}
-
 function guardarEstado() {
   localStorage.setItem('videojuegoVida', JSON.stringify(estado));
+}
+
+function calcularXpNecesaria(nivel) {
+  return 100 + nivel * 100;
 }
 
 function render() {
@@ -37,35 +37,43 @@ function render() {
   huchaEl.textContent = estado.hucha.toFixed(2);
 
   habilidadesEl.innerHTML = '';
-  Object.entries(estado.habilidades).forEach(([nombre, data]) => {
+  for (const [nombre, datos] of Object.entries(estado.habilidades)) {
+    const { nivel, xp } = datos;
+    const xpNecesaria = calcularXpNecesaria(nivel);
+    const progreso = Math.min((xp / xpNecesaria) * 100, 100).toFixed(1);
+
     const div = document.createElement('div');
-    const xpNecesaria = xpParaSiguienteNivel(data.nivel);
-    div.innerHTML = `<strong>${nombre}</strong>: Nivel ${data.nivel} | XP: ${data.xp}/${xpNecesaria}`;
+    div.innerHTML = `
+      <strong>${nombre}</strong>: Nivel ${nivel} - XP: ${xp}/${xpNecesaria}
+      <div style="background: #ddd; border-radius: 6px; overflow: hidden;">
+        <div style="width: ${progreso}%; background: #4caf50; padding: 2px 0; color: white; text-align: center;">${progreso}%</div>
+      </div>
+    `;
     habilidadesEl.appendChild(div);
-  });
+  }
 
   const tareas = [
     { nombre: 'Leer 30 min', hab: 'Lectura', xp: 20, monedas: 5 },
-    { nombre: 'Gimnasio o correr', hab: 'Gimnasio', xp: 20, monedas: 10 },
-    { nombre: 'Backtesting 2h', hab: 'Backtesting', xp: 20, monedas: 10 },
-    { nombre: 'Meditar y agradecer', hab: 'VidaEspiritual', xp: 20, monedas: 5 },
+    { nombre: 'Gimnasio o correr', hab: 'Gimnasio', xp: 25, monedas: 10 },
+    { nombre: 'Backtesting 2h', hab: 'Backtesting', xp: 30, monedas: 10 },
+    { nombre: 'Meditar y agradecer', hab: 'VidaEspiritual', xp: 15, monedas: 5 },
     { nombre: 'Comer saludable', hab: 'Alimentacion', xp: 20, monedas: 10 },
     { nombre: 'Estudio 1h', hab: 'Estudio', xp: 20, monedas: 5 },
-    { nombre: 'Conversación interesante', hab: 'Social', xp: 20, monedas: 5 },
-    { nombre: 'Aprender Idioma', hab: 'Idioma', xp: 20, monedas: 5 }
+    { nombre: 'Conversación interesante', hab: 'Social', xp: 10, monedas: 5 },
+    { nombre: 'Aprender Idioma', hab: 'Idioma', xp: 25, monedas: 5 }
   ];
 
   misionesEl.innerHTML = '';
-  tareas.forEach(t => {
+  tareas.forEach((t) => {
     const div = document.createElement('div');
     const btn = document.createElement('button');
     btn.textContent = 'Completar';
     btn.onclick = () => {
       const hab = estado.habilidades[t.hab];
       hab.xp += t.xp;
-      while (hab.xp >= xpParaSiguienteNivel(hab.nivel) && hab.nivel < 10) {
-        hab.xp -= xpParaSiguienteNivel(hab.nivel);
-        hab.nivel += 1;
+      while (hab.xp >= calcularXpNecesaria(hab.nivel)) {
+        hab.xp -= calcularXpNecesaria(hab.nivel);
+        hab.nivel = Math.min(hab.nivel + 1, 10);
       }
       estado.monedas += t.monedas;
       guardarEstado();
@@ -91,14 +99,14 @@ function render() {
   ];
 
   tiendaEl.innerHTML = '';
-  recompensas.forEach(r => {
+  recompensas.forEach((r) => {
     const div = document.createElement('div');
     const btn = document.createElement('button');
     btn.textContent = 'Comprar';
     btn.onclick = () => {
       if (estado.monedas >= r.costo) {
         estado.monedas -= r.costo;
-        if (r.nombre === 'Intercambiar monedas por dinero real') {
+        if (r.nombre.includes('Intercambiar monedas')) {
           estado.hucha += 1;
         } else {
           estado.recompensas.push(r.nombre);
@@ -141,14 +149,10 @@ function showTab(tabId) {
     tab.classList.remove('visible');
     tab.classList.add('hidden');
   });
-  const selectedTab = document.getElementById(tabId);
-  if (selectedTab) {
-    selectedTab.classList.remove('hidden');
-    selectedTab.classList.add('visible');
-  }
+  document.getElementById(tabId).classList.remove('hidden');
+  document.getElementById(tabId).classList.add('visible');
 }
-
 
 render();
 showTab('inicio');
-// Código del script no encontrado.
+
