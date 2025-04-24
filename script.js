@@ -10,7 +10,6 @@ let estado = JSON.parse(localStorage.getItem('videojuegoVida')) || {
   monedas: 0,
   corazones: 10,
   hucha: 0,
-  experiencia: 0,
   habilidades: {
     Lectura: { nivel: 0, xp: 0 },
     Gimnasio: { nivel: 0, xp: 0 },
@@ -38,30 +37,18 @@ function render() {
   Object.entries(estado.habilidades).forEach(([nombre, { nivel, xp }]) => {
     const div = document.createElement('div');
     div.textContent = `${nombre}: Nivel ${nivel} | XP: ${xp}`;
-
-    const barra = document.createElement('div');
-    barra.classList.add('nivel-barra');
-    const xpRequerido = 10 * (nivel + 1);  // XP necesario para subir de nivel
-    for (let i = 1; i <= xpRequerido; i++) {
-      const nivelDiv = document.createElement('div');
-      nivelDiv.classList.add('nivel');
-      if (i <= xp) nivelDiv.style.backgroundColor = "#4caf50"; // Verde si está a nivel
-      barra.appendChild(nivelDiv);
-    }
-
-    div.appendChild(barra);
     habilidadesEl.appendChild(div);
   });
 
   const tareas = [
-    { nombre: 'Leer 30 min', hab: 'Lectura', xp: 1, monedas: 5 },
-    { nombre: 'Gimnasio o correr', hab: 'Gimnasio', xp: 1, monedas: 10 },
-    { nombre: 'Backtesting 2h', hab: 'Backtesting', xp: 1, monedas: 10 },
-    { nombre: 'Meditar y agradecer', hab: 'VidaEspiritual', xp: 1, monedas: 5 },
-    { nombre: 'Comer saludable', hab: 'Alimentacion', xp: 1, monedas: 10 },
-    { nombre: 'Estudio 1h', hab: 'Estudio', xp: 1, monedas: 5 },
-    { nombre: 'Conversación interesante', hab: 'Social', xp: 1, monedas: 5 },
-    { nombre: 'Aprender Idioma', hab: 'Idioma', xp: 1, monedas: 5 },
+    { nombre: 'Leer 30 min', hab: 'Lectura', xp: 10, monedas: 5 },
+    { nombre: 'Gimnasio o correr', hab: 'Gimnasio', xp: 10, monedas: 10 },
+    { nombre: 'Backtesting 2h', hab: 'Backtesting', xp: 10, monedas: 10 },
+    { nombre: 'Meditar y agradecer', hab: 'VidaEspiritual', xp: 10, monedas: 5 },
+    { nombre: 'Comer saludable', hab: 'Alimentacion', xp: 10, monedas: 10 },
+    { nombre: 'Estudio 1h', hab: 'Estudio', xp: 10, monedas: 5 },
+    { nombre: 'Conversación interesante', hab: 'Social', xp: 10, monedas: 5 },
+    { nombre: 'Aprender Idioma', hab: 'Idioma', xp: 10, monedas: 5 }
   ];
 
   misionesEl.innerHTML = '';
@@ -71,16 +58,11 @@ function render() {
     btn.textContent = 'Completar';
     btn.onclick = () => {
       estado.habilidades[t.hab].xp += t.xp;
-      estado.monedas += t.monedas;
-
-      // Si la XP supera el límite necesario para subir de nivel
-      const xpRequerido = 10 * (estado.habilidades[t.hab].nivel + 1);
-      if (estado.habilidades[t.hab].xp >= xpRequerido) {
+      if (estado.habilidades[t.hab].xp >= (estado.habilidades[t.hab].nivel + 1) * 100) {
         estado.habilidades[t.hab].nivel++;
-        estado.habilidades[t.hab].xp = 0; // Resetear XP después de subir de nivel
+        estado.habilidades[t.hab].xp = 0;
       }
-
-      estado.experiencia += t.xp;
+      estado.monedas += t.monedas;
       guardarEstado();
       render();
     };
@@ -112,7 +94,7 @@ function render() {
       if (estado.monedas >= r.costo) {
         estado.monedas -= r.costo;
         if (r.nombre === 'Intercambiar monedas por dinero real') {
-          estado.hucha += 1; // 50 monedas = 1€
+          estado.hucha += 1;
         } else {
           estado.recompensas.push(r.nombre);
         }
