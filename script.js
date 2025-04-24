@@ -105,7 +105,7 @@ function render() {
     btn.onclick = () => {
       if (estado.monedas >= r.costo) {
         estado.monedas -= r.costo;
-        if (r.nombre.includes('Intercambiar monedas')) {
+        if (r.nombre === 'Intercambiar monedas por dinero real') {
           estado.hucha += 1;
         } else {
           estado.recompensas.push(r.nombre);
